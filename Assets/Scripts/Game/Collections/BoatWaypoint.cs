@@ -6,4 +6,6 @@ public struct BoatWaypoint
 {
     public Transform Waypoint;
 	public bool IsWaypointInfrontBridge;
+
+    // COMMENT TO TEST GIT STUFF OUT
 }
