@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlotsManager : Singleton<PlotsManager>
 {
-	const ushort AMOUNT_OF_PLOTS = 3;
+	const ushort AMOUNT_OF_PLOTS = 4;
 
 	[SerializeField] internal Plot _currentPlot;
 	[SerializeField] internal PlotCollection[] _plotObjects;

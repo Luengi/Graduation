@@ -4,4 +4,5 @@ public enum Plot
    Ocean,
    Space,
    Village,
+   Fourth
 }

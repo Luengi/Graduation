@@ -49,10 +49,11 @@ public class ImageTrackingResponseManager : MonoBehaviour
 		{
 			// Handle added tracked images
 			ImageObjectReference imageObjectReference = _imageObjectReferences.FirstOrDefault(i => i.ImageName == trackedImage.referenceImage.name);
+            Debug.Log(trackedImage.referenceImage.name); //Check which plot reference image is used. (Matthijs Added) (Space works)
 
-			// If no ImageObjectReference is found, skip to the next tracked image
-			if (!HasImageObjectReferences(imageObjectReference)) continue;
-
+            // If no ImageObjectReference is found, skip to the next tracked image
+            if (!HasImageObjectReferences(imageObjectReference)) continue;
+			
 			GameObject trackedObject = _imageTrackingTrackRespondedObjects.GetTrackedObject(trackedImage.referenceImage.name);
 
 			if(trackedObject == null) 
@@ -79,7 +80,6 @@ public class ImageTrackingResponseManager : MonoBehaviour
 		{
 			// Handle added tracked images
 			ImageObjectReference imageObjectReference = _imageObjectReferences.FirstOrDefault(i => i.ImageName == trackedImage.referenceImage.name);
-
 			// If no ImageObjectReference is found, skip to the next tracked image
 			if (!HasImageObjectReferences(imageObjectReference)) continue;
 
