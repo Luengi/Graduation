@@ -30,14 +30,14 @@ public class PlotTutorial : MonoBehaviour
 		_raycastManager.OnRaycastHit -= OnInteract;
 	}
 	
-	private void OnInteract(Collider collider)
+	private void OnInteract (Collider collider)
 	{
-		if(_state != PlotTutorialState.Tap) return;
+		if (_state != PlotTutorialState.Tap) return;
 		
 		UpdateState(PlotTutorialState.Finished);
 	}
 	
-	private IEnumerator SkipTutorialSectionCoroutine(float secondsToWait, PlotTutorialState nextStateToSet)
+	private IEnumerator SkipTutorialSectionCoroutine (float secondsToWait, PlotTutorialState nextStateToSet)
 	{
 		yield return new WaitForSeconds(secondsToWait);
 		UpdateState(nextStateToSet);
@@ -50,7 +50,7 @@ public class PlotTutorial : MonoBehaviour
 	
 	private void CheckState()
 	{
-		if(_state != PlotTutorialState.LookAround) return;
+		if (_state != PlotTutorialState.LookAround) return;
 		
 		DoRaycast();
 	}
@@ -60,8 +60,7 @@ public class PlotTutorial : MonoBehaviour
 		RaycastHit hit;
 		PlotTutorialLookPosition lookPositionScript;
 
-		if (!Physics.Raycast(_raycastCamera.transform.position, _raycastCamera.transform.forward,
-			out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Collide))
+		if (!Physics.Raycast(_raycastCamera.transform.position, _raycastCamera.transform.forward, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Collide))
 		return;
 
 		if (!hit.collider.TryGetComponent<PlotTutorialLookPosition>(out lookPositionScript))
@@ -70,7 +69,7 @@ public class PlotTutorial : MonoBehaviour
 		DiscoverLookPosition(lookPositionScript);
 	}
 		
-	private void DiscoverLookPosition(PlotTutorialLookPosition lookPosition)
+	private void DiscoverLookPosition (PlotTutorialLookPosition lookPosition)
 	{
 		if (lookPosition.IsDiscovered) return;
 		
@@ -80,7 +79,7 @@ public class PlotTutorial : MonoBehaviour
 	
 	private void CheckDiscoveredLookPositions()
 	{
-		foreach(PlotTutorialLookPosition lookPosition in _lookPositions)
+		foreach (PlotTutorialLookPosition lookPosition in _lookPositions)
 		{
 			if (!lookPosition.IsDiscovered) return;
 		}
@@ -94,11 +93,11 @@ public class PlotTutorial : MonoBehaviour
 		UpdateState(PlotTutorialState.Tap);
 	}
 	
-	private void UpdateState(PlotTutorialState state)
+	private void UpdateState (PlotTutorialState state)
 	{
 		_state = state;
 		
-		switch(_state)
+		switch (_state)
 		{
 			case PlotTutorialState.LookAround:
 				StartLookAroundTutorial();
@@ -138,12 +137,12 @@ public class PlotTutorial : MonoBehaviour
 		gameObject.SetActive(false);
 	}
 	
-	private void EnableTutorialObject(GameObject gameObject)
+	private void EnableTutorialObject (GameObject gameObject)
 	{
 		gameObject.SetActive(true);
 	}
 	
-	private void DisableTutorialObject(GameObject gameObject)
+	private void DisableTutorialObject (GameObject gameObject)
 	{
 		gameObject.SetActive(false);
 	}
@@ -157,7 +156,7 @@ public class PlotTutorial : MonoBehaviour
 		}
 
 		_lookPositions = new List<PlotTutorialLookPosition>();
-		foreach(Transform child in _lookPositionsContainer.transform)
+		foreach (Transform child in _lookPositionsContainer.transform)
 		{
 			_lookPositions.Add(child.GetComponent<PlotTutorialLookPosition>());
 		}

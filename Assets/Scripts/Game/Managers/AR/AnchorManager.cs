@@ -23,7 +23,7 @@ public class AnchorManager : MonoBehaviour
 		SubscribeToEvents();
 	}
 
-	private void HandleAnchorsChanged(ARAnchorsChangedEventArgs args)
+	private void HandleAnchorsChanged (ARAnchorsChangedEventArgs args)
 	{
 		foreach (var anchor in args.added)
 		{
@@ -35,7 +35,8 @@ public class AnchorManager : MonoBehaviour
 		}
 	}
 
-	public void AttachToAnchor(GameObject objectToAnchor, ARTrackedImage trackedImage) {
+	public void AttachToAnchor (GameObject objectToAnchor, ARTrackedImage trackedImage) 
+	{
 		GameObject anchorObject = CreateAnchorObject(trackedImage.transform.position, trackedImage.transform.rotation);
 
 		objectToAnchor.transform.SetParent(anchorObject.transform);
@@ -45,7 +46,8 @@ public class AnchorManager : MonoBehaviour
 		_imageAnchorCollections.Add(new ImageAnchorCollection { Image = trackedImage, PlotObject = objectToAnchor, AnchorObject = anchorObject });
 	}
 
-	private GameObject CreateAnchorObject(Vector3 position, Quaternion rotation) {
+	private GameObject CreateAnchorObject (Vector3 position, Quaternion rotation) 
+	{
 		GameObject anchorObject = new GameObject(ANCHOR_GAMEOBJECT_NAME);
 		anchorObject.transform.SetPositionAndRotation(position, rotation);
 		anchorObject.AddComponent<ARAnchor>();
@@ -53,8 +55,10 @@ public class AnchorManager : MonoBehaviour
 		return anchorObject;
 	}
 
-	private ImageAnchorCollection? GetImageAnchorCollection(GameObject anchorGameObject) {
-		foreach (var imageAnchor in _imageAnchorCollections) {
+	private ImageAnchorCollection? GetImageAnchorCollection (GameObject anchorGameObject) 
+	{
+		foreach (var imageAnchor in _imageAnchorCollections) 
+		{
 			if (imageAnchor.AnchorObject == anchorGameObject) return imageAnchor;
 		}
 

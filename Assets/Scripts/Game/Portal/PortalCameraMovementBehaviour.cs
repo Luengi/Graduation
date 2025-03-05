@@ -14,19 +14,16 @@ public class PortalCameraMovementBehaviour : MonoBehaviour
 		if (_mainCamera != null) transform.rotation = _mainCamera.transform.rotation;
 	}
 
-    // Update is called once per frame
     void Update()
     {
-	    if(_mainCamera == null) return;
+	    if (_mainCamera == null) return;
 	    
 		UpdatePortalTransform(_worldAnchor, _portal, _mainCamera.gameObject);
     }
 
-    internal void UpdatePortalTransform(GameObject anchor, GameObject portal, GameObject mainCameraGameObject)
+    internal void UpdatePortalTransform (GameObject anchor, GameObject portal, GameObject mainCameraGameObject)
     {
-	    var adjustedPositionAndRotationMatrix = anchor.transform.localToWorldMatrix * portal.transform.worldToLocalMatrix *
-	            mainCameraGameObject.transform.localToWorldMatrix;
-	    
+	    var adjustedPositionAndRotationMatrix = anchor.transform.localToWorldMatrix * portal.transform.worldToLocalMatrix * mainCameraGameObject.transform.localToWorldMatrix;
 	    transform.SetPositionAndRotation(adjustedPositionAndRotationMatrix.GetColumn(3), adjustedPositionAndRotationMatrix.rotation);
     }
 }

@@ -2,13 +2,8 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[
-	RequireComponent(typeof(BoxCollider)),
-	RequireComponent(typeof(SoundComponent)),
-]
-public class WindowInteraction : MonoBehaviour, IInteractable,
-												IInterruptible,
-												IEvent
+[RequireComponent(typeof(BoxCollider)), RequireComponent(typeof(SoundComponent)), ]
+public class WindowInteraction : MonoBehaviour, IInteractable, IInterruptible, IEvent
 {
 	private const string WAVE_ANIMATION_PARAMETER = "IsWaving";
 	private const string WAVE_ANIMATION_NAME = "Wave";
@@ -30,9 +25,9 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 	// Temporary until animations are implemented
 	[SerializeField] float _secondsToWaitForAnimations;
 		
-	public bool CanInterrupt { get; set; } = true;
-	public bool MultipleInteractions { get; set; } = false;
-	public EventState State { get; set; }
+	public bool CanInterrupt {get; set;} = true;
+	public bool MultipleInteractions {get; set;} = false;
+	public EventState State {get; set;}
 	public event Action<IInterruptible> OnInterruptedDone;
 	public event Action OnEventDone;
 	
@@ -50,15 +45,15 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 		UpdateState(WindowInteractionState.ApproachingWindow);
 	}
 	
-	private void UpdateState(WindowInteractionState _stateToSet)
+	private void UpdateState (WindowInteractionState _stateToSet)
 	{
 		_interactionState = _stateToSet;
 		HandleState(_interactionState);
 	}
 	
-	private void HandleState(WindowInteractionState _state)
+	private void HandleState (WindowInteractionState _state)
 	{
-		switch(_state)
+		switch (_state)
 		{
 			case WindowInteractionState.ApproachingWindow:
 				StartCoroutine(ApproachWindow());
@@ -82,7 +77,7 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 	}
 	
 	// Temporary until animations are implemented
-	private IEnumerator DelayCoroutine(float secondsToWait)
+	private IEnumerator DelayCoroutine (float secondsToWait)
 	{
 		yield return new WaitForSeconds(secondsToWait);
 	}
@@ -108,16 +103,16 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 	{
 		_housePlayAnimation.SetBoolParameter(WINDOW_OPEN_ANIMATION_PARAMETER, true);
 		_soundComponent.PlaySound(_onceWindowOpenSFX);
-		//yield return _housePlayAnimation.WaitForAnimationToStart(WINDOW_OPEN_ANIMATION_NAME);
+		// yield return _housePlayAnimation.WaitForAnimationToStart(WINDOW_OPEN_ANIMATION_NAME);
 		yield return _housePlayAnimation.WaitForAnimationToEnd();
 		_housePlayAnimation.SetBoolParameter(WINDOW_OPEN_ANIMATION_PARAMETER, false);
-		//yield return StartCoroutine(DelayCoroutine(_secondsToWaitForAnimations));
+		// yield return StartCoroutine(DelayCoroutine(_secondsToWaitForAnimations));
 		UpdateState(WindowInteractionState.SheepResponds);
 	}
 	
 	private IEnumerator SheepResponse()
 	{
-		//Debug.Log("WindowInteraction: Play sheep response animation here.");
+		// Debug.Log("WindowInteraction: Play sheep response animation here.");
 		_sheepPlayAnimation.SetBoolParameter(SHEEP_POPS_OUT_ANIMATION_PARAMETER,true);
 		yield return StartCoroutine(_sheepPlayAnimation.WaitForAnimationToStart(SHEEP_POPS_OUT_ANIMATION_STATE_NAME));
 		yield return StartCoroutine(_sheepPlayAnimation.WaitForAnimationToEnd());
@@ -125,15 +120,15 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 		UpdateState(WindowInteractionState.ClosingWindow);
 	}
 	
-	private IEnumerator CloseWindow(bool toInterrupted)
+	private IEnumerator CloseWindow (bool toInterrupted)
 	{
 		_housePlayAnimation.SetBoolParameter(WINDOW_CLOSE_ANIMATION_PARAMETER, true);
 		_housePlayAnimation.SetBoolParameter(WINDOW_OPEN_ANIMATION_PARAMETER, false);
 		_soundComponent.PlaySound(_onceWindowCloseSFX);
-		//yield return _housePlayAnimation.WaitForAnimationToStart(WINDOW_CLOSE_ANIMATION_NAME);
+		// yield return _housePlayAnimation.WaitForAnimationToStart(WINDOW_CLOSE_ANIMATION_NAME);
 		yield return _housePlayAnimation.WaitForAnimationToEnd();
 		_housePlayAnimation.SetBoolParameter(WINDOW_CLOSE_ANIMATION_PARAMETER, false);
-		//yield return StartCoroutine(DelayCoroutine(_secondsToWaitForAnimations));
+		// yield return StartCoroutine(DelayCoroutine(_secondsToWaitForAnimations));
 		if(!toInterrupted) UpdateState(WindowInteractionState.LeavingWindow);
 	}
 	
@@ -145,7 +140,7 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 		OnEventDone?.Invoke();
 	}
 	
-	private IEnumerator MoveBeeToPosition(Vector3 position)
+	private IEnumerator MoveBeeToPosition (Vector3 position)
 	{
 		// Move to the front of the window
 		while (!_beeObjectMovement.IsInPlace(position))
@@ -156,12 +151,11 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 		}
 		
 		// Rotate towards the window
-		Quaternion targetRotation = 
-			Quaternion.LookRotation((_windowTransform.position - _beeMovement.transform.position).normalized);
-			yield return StartCoroutine(SmoothRotationCoroutine(targetRotation, 0.25f));
+		Quaternion targetRotation = Quaternion.LookRotation((_windowTransform.position - _beeMovement.transform.position).normalized);
+		yield return StartCoroutine(SmoothRotationCoroutine(targetRotation, 0.25f));
 	}
 	
-	private	IEnumerator SmoothRotationCoroutine(Quaternion targetRotation, float duration)
+	private	IEnumerator SmoothRotationCoroutine (Quaternion targetRotation, float duration)
 	{
 		Quaternion startRotation = _beeMovement.transform.rotation;
 		float timeElapsed = 0f;
@@ -186,7 +180,7 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 		_beePlayAnimation.SetBoolParameter(WAVE_ANIMATION_PARAMETER, false);
 		StopAllCoroutines();
 		_sheepPlayAnimation.SetBoolParameter(SHEEP_POPS_OUT_ANIMATION_PARAMETER,false);
-		//close the window
+		// close the window
 		StartCoroutine(CloseWindow(true));
 		Bee.Instance.UpdateState(BeeState.Idle);
 		OnInterruptedDone?.Invoke(this);

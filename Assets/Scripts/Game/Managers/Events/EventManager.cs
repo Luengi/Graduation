@@ -17,7 +17,7 @@ public class EventManager : Singleton<EventManager>
 	internal protected override void Awake()
 	{
 		base.Awake();
-		if(_passiveEventManager == null || _interactionManager == null) Debug.LogWarning("Interaction Manager or Passive Event Manager is not set in Event Manager");
+		if (_passiveEventManager == null || _interactionManager == null) Debug.LogWarning("Interaction Manager or Passive Event Manager is not set in Event Manager");
 	}
 
 	internal void Start()
@@ -27,17 +27,17 @@ public class EventManager : Singleton<EventManager>
 
 	private void SubscribeToEvents()
 	{
-		if(_passiveEventManager != null) 
+		if (_passiveEventManager != null) 
 			_passiveEventManager.OnPassiveEventReadyToStart += StartInterruptionSequence;
-		if(_interactionManager != null) 
+		if (_interactionManager != null) 
 			_interactionManager.OnInteractionReadyToStart += StartInterruptionSequence;
 
 		ImageTrackingPlotUpdatedResponse.OnPlotNeedsDeactivation += HandlePlotDeactivated;
 	}
 
-	private void HandlePlotDeactivated(Plot plot)
+	private void HandlePlotDeactivated (Plot plot)
 	{
-		if(_currentEvent == null) return;
+		if (_currentEvent == null) return;
 
 		_currentEvent.OnEventDone -= HandleCurrentEventDone;
 		_currentEvent.StopEvent();
@@ -50,36 +50,41 @@ public class EventManager : Singleton<EventManager>
 
 	private void UnsubscribeFromEvents()
 	{
-		if(_passiveEventManager != null) 
+		if (_passiveEventManager != null) 
 			_passiveEventManager.OnPassiveEventReadyToStart -= StartInterruptionSequence;
-		if(_interactionManager != null) 
+		if (_interactionManager != null) 
 			_interactionManager.OnInteractionReadyToStart -= StartInterruptionSequence;
 
 		ImageTrackingPlotUpdatedResponse.OnPlotNeedsDeactivation -= HandlePlotDeactivated;
 	}
 
-	private void StartInterruptionSequence(EventInterruption eventData)
+	private void StartInterruptionSequence (EventInterruption eventData)
 	{
-		if(_interruptionInProcess) return;
+		if (_interruptionInProcess) return;
 
-		if(_currentEventGameObject == null)
+		if (_currentEventGameObject == null)
 		{
 			UpdateCurrentEvent(eventData.EventObject);
 			_currentEventGameObject = eventData.EventObject;
-			if(eventData.EventType == EventType.Passive) {
+			if (eventData.EventType == EventType.Passive) 
+			{
 				_currentEventGameObject.GetComponent<PlotEvent>().StartEvent();
 			}
-			else {
+			else 
+			{
 				var interactable = _currentEventGameObject.GetComponent<IInteractable>();
 				interactable.Interact();
 			}
 			return;
 		}
 		
-		if(_currentEventGameObject == eventData.EventObject) { 
-			if(eventData.EventType == EventType.Active) {
+		if (_currentEventGameObject == eventData.EventObject) 
+		{ 
+			if (eventData.EventType == EventType.Active) 
+			{
 				var interactable = _currentEventGameObject.GetComponent<IInteractable>();
-				if(interactable.MultipleInteractions) {
+				if (interactable.MultipleInteractions) 
+				{
 					interactable.Interact();
 				}
 			}
@@ -95,7 +100,7 @@ public class EventManager : Singleton<EventManager>
 		interruptibleEvent.InterruptEvent();
 	}
 
-	private void HandleEventInterrupted(IInterruptible interruptibleEvent)
+	private void HandleEventInterrupted (IInterruptible interruptibleEvent)
 	{
 		_interruptionInProcess = false;
 		interruptibleEvent.OnInterruptedDone -= HandleEventInterrupted;
@@ -110,9 +115,9 @@ public class EventManager : Singleton<EventManager>
 		}
 	}
 
-	private void UpdateCurrentEvent(GameObject nextEvent)
+	private void UpdateCurrentEvent (GameObject nextEvent)
 	{
-		if(_currentEvent != null)
+		if (_currentEvent != null)
 			_currentEvent.OnEventDone -= HandleCurrentEventDone;
 
 		_currentEventGameObject = nextEvent;
@@ -120,7 +125,8 @@ public class EventManager : Singleton<EventManager>
 		_currentEvent.OnEventDone += HandleCurrentEventDone;
 	}
 
-	private void HandleCurrentEventDone() {
+	private void HandleCurrentEventDone() 
+	{
 		_currentEventGameObject = null;
 		_currentEvent.OnEventDone -= HandleCurrentEventDone;
 		_currentEvent = null;

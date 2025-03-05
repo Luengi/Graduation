@@ -13,28 +13,32 @@ public class OpenClamsPassiveEvent : PlotEvent, IEvent, IInterruptible
 
 	public event Action<IInterruptible> OnInterruptedDone;
 
-	private void Awake() {
+	private void Awake() 
+	{
 		_toggleObjectEvent.RetrieveToggleableObjects();
 	}
 
-	private void Start() {
+	private void Start() 
+	{
 		SubscribeToEvents();
 	}
 
-   	// private void Update() {
-	// 	// _cooldown.DecreaseCooldown(Time.deltaTime);
+   	// private void Update()
+	// {
+	// 	 _cooldown.DecreaseCooldown(Time.deltaTime);
 	// }
 
-	internal void SetUpPassiveEvent() {
+	internal void SetUpPassiveEvent() 
+	{
 		_state = EventState.InitialWaiting;
 		// _cooldown.StartCooldown(_config.Timing.StartDelay);
 		// _frequency.FrequencyAmount = _config.Timing.Frequency;
 	}
 
-	private IEnumerator MoveBeeToClamp(Transform clam)
+	private IEnumerator MoveBeeToClamp (Transform clam)
 	{
 		Vector3 target = clam.position + clam.forward;
-		while(!_beeMovement.IsInPlace(target))
+		while (!_beeMovement.IsInPlace(target))
 		{
 			_beeMovement.MoveTo(target, _beeMovementConfig.MovementSpeed);
 			yield return null;
@@ -62,7 +66,8 @@ public class OpenClamsPassiveEvent : PlotEvent, IEvent, IInterruptible
 
 	internal protected override void UpdateEventStatus()
 	{
-		if(!_toggleObjectEvent.TryGetRandomObjectWithStateOn(out IToggleComponent toggleComponent, out GameObject toggleableObject)) {
+		if (!_toggleObjectEvent.TryGetRandomObjectWithStateOn(out IToggleComponent toggleComponent, out GameObject toggleableObject)) 
+		{
 			// _cooldown.StartCooldown(_state == EventState.InitialWaiting ? _config.Timing.StartDelay : _config.Timing.Cooldown);
 			return;
 		}
@@ -72,8 +77,10 @@ public class OpenClamsPassiveEvent : PlotEvent, IEvent, IInterruptible
 		base.UpdateEventStatus();
 	}
 
-	private bool TryGetOpenClam() {
-		if(!_toggleObjectEvent.TryGetRandomObjectWithStateOn(out IToggleComponent toggleComponent, out GameObject toggleableObject)) {
+	private bool TryGetOpenClam() 
+	{
+		if (!_toggleObjectEvent.TryGetRandomObjectWithStateOn(out IToggleComponent toggleComponent, out GameObject toggleableObject)) 
+		{
 			return false;
 		}
 		
@@ -83,7 +90,7 @@ public class OpenClamsPassiveEvent : PlotEvent, IEvent, IInterruptible
 		return true;
 	}
 
-	internal UpdatePassiveEventCollection SetupStartEventMetadata(Transform openClam)
+	internal UpdatePassiveEventCollection SetupStartEventMetadata (Transform openClam)
 	{
 		return new UpdatePassiveEventCollection
 		{
@@ -97,14 +104,16 @@ public class OpenClamsPassiveEvent : PlotEvent, IEvent, IInterruptible
 		};
 	}
 
-	private void OnDestory() {
+	// TODO: see if this needs to be OnDestroy() !!!
+	private void OnDestory() 
+	{
 		UnsubscribeFromEvents();
 	}
 
 	public void InterruptEvent()
 	{
 		_state = EventState.Waiting;
-		if(_toggleComponent != null) _toggleComponent.OnToggleDone -= HandleCurrentClamToggle;
+		if (_toggleComponent != null) _toggleComponent.OnToggleDone -= HandleCurrentClamToggle;
 
 		HandleDoneStatus();
 		OnInterruptedDone?.Invoke(this);

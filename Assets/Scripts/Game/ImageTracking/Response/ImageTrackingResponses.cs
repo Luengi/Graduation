@@ -1,4 +1,5 @@
-public enum ImageTrackingResponses {
+public enum ImageTrackingResponses 
+{
 	None,
 	SpawnObject,
 	ActivateObject,

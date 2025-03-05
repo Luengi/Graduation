@@ -68,7 +68,8 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 	
 	public void InterruptEvent()
 	{
-		if(Bee.Instance.State == BeeState.MovingToBridge) {
+		if (Bee.Instance.State == BeeState.MovingToBridge) 
+		{
 			Bee.Instance.UpdateState(BeeState.Idle);
 		}
 	
@@ -119,8 +120,10 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 		StopAllCoroutines();
 	}
 
-	private IEnumerator ScaleUpBoat(Vector3 firstWaypointPosition, Vector3 secondWaypointPosition) {
-		while(_boatObject.transform.localScale.x < _boatInitialScale) {
+	private IEnumerator ScaleUpBoat (Vector3 firstWaypointPosition, Vector3 secondWaypointPosition) 
+	{
+		while (_boatObject.transform.localScale.x < _boatInitialScale) 
+		{
 			float distanceBetweenWaypoints = Vector3.Distance(firstWaypointPosition, secondWaypointPosition);
 			float distanceToSecondWaypoint = Vector3.Distance(firstWaypointPosition, _boatObject.transform.position);
 			float scale = MathF.Min(distanceToSecondWaypoint / distanceBetweenWaypoints, 1);
@@ -130,8 +133,10 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 		}
 	}
 
-	private IEnumerator ScaleDownBoat(Vector3 lastWaypointPosition, Vector3 oneBeforeLastWaypointPosition) {
-		while(_boatObject.transform.localScale.x > 0) {
+	private IEnumerator ScaleDownBoat (Vector3 lastWaypointPosition, Vector3 oneBeforeLastWaypointPosition) 
+	{
+		while (_boatObject.transform.localScale.x > 0) 
+		{
 			float distanceBetweenWaypoints = Vector3.Distance(lastWaypointPosition, oneBeforeLastWaypointPosition);
 			float distanceToSecondWaypoint = Vector3.Distance(lastWaypointPosition, _boatObject.transform.position);
 			float scale = MathF.Min(distanceToSecondWaypoint / distanceBetweenWaypoints, 1f);
@@ -173,7 +178,7 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 		yield return StartCoroutine(_beeMovement.MoveUntilObjectReached(bridgePosition, .75f));
 	}
 
-	private void SpawnAtFirstPosition(Vector3 firstWaypointPosition, Vector3 firstWaypointForward)
+	private void SpawnAtFirstPosition (Vector3 firstWaypointPosition, Vector3 firstWaypointForward)
 	{
 		_soundComponent.PlaySound(_boatEngineSFX);
 		
@@ -182,7 +187,7 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 		_boatObject.transform.SetPositionAndRotation(firstWaypointPosition, Quaternion.LookRotation(firstWaypointForward));
 	}
 	
-	private IEnumerator PlayHornCoroutine(float secondsToWait)
+	private IEnumerator PlayHornCoroutine (float secondsToWait)
 	{
 		yield return new WaitForSeconds(secondsToWait);
 		_hornSoundComponent.PlaySound(_onceBoatHornSFX);
@@ -197,7 +202,8 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 		SetUpPassiveEvent();
 	}
 
-	internal void SetUpPassiveEvent() {
+	internal void SetUpPassiveEvent() 
+	{
 		_state = EventState.InitialWaiting;
 	}
 

@@ -2,11 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections;
 
-[
-	RequireComponent(typeof(PlayAnimation)),
-	RequireComponent(typeof(PlayParticle)),
-	RequireComponent(typeof(SoundComponent)),
-]
+[RequireComponent(typeof(PlayAnimation)), RequireComponent(typeof(PlayParticle)), RequireComponent(typeof(SoundComponent)), ]
 public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterruptible
 {
 	private const string STARTED_ANIMATION_PARAMETER_NAME = "HasStarted";
@@ -39,32 +35,35 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	public event Action OnEventDone;
 	public event Action<IInterruptible> OnInterruptedDone;
 
-	public bool CanInterrupt { get; set; }
+	public bool CanInterrupt {get; set;}
+	public EventState State {get; set;}
+	public bool MultipleInteractions {get; set;}
 
-	public EventState State { get; set; }
-	public bool MultipleInteractions { get ; set; }
-
-	private void Awake() {
+	private void Awake() 
+	{
 		_playAnimation = GetComponent<PlayAnimation>();
 		_playParticle = GetComponent<PlayParticle>();
 		_soundComponent = GetComponent<SoundComponent>();
 		_cooldown = new Cooldown();
 	}
 
-	private void Start() {
+	private void Start() 
+	{
 		CanInterrupt = true;
 		MultipleInteractions = true;
 
 		SubscribeToEvents();
 	}
 
-	private void Update() {
+	private void Update() 
+	{
 		_cooldown.DecreaseCooldown(Time.deltaTime);
 	}
 
 	public void Interact()
 	{
-		if(!IsChestInspectionRunning()) {
+		if (!IsChestInspectionRunning()) 
+		{
 			_soundComponent.PlaySound(_tapSFX);
 			StartCoroutine(InitialChestAnimation());
 			return;
@@ -73,11 +72,11 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 		switch (_chestEventState)
 		{
 			case ChestEventState.InforntOfChest:
-				if(_cooldown.IsOnCooldown) _cooldown.StopCooldown();
+				if (_cooldown.IsOnCooldown) _cooldown.StopCooldown();
 				UpdateChestEventState(ChestEventState.GoingInsideChest);				
 				break;
 			case ChestEventState.InsideChest:
-				if(_cooldown.IsOnCooldown) _cooldown.StopCooldown();
+				if (_cooldown.IsOnCooldown) _cooldown.StopCooldown();
 				UpdateChestEventState(ChestEventState.LeavingChest);				
 				break;
 		}
@@ -85,8 +84,10 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 
 	public bool IsChestInspectionRunning() => _chestEventState != ChestEventState.None && Bee.Instance.State == BeeState.ChestInspection;
 
-	private IEnumerator InitialChestAnimation() {
-		if(!_hasAnimationStarted) {
+	private IEnumerator InitialChestAnimation() 
+	{
+		if (!_hasAnimationStarted) 
+		{
 			_hasAnimationStarted = true;
 			EnableChestAnimation();
 		}
@@ -114,42 +115,52 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 		OnEventDone?.Invoke();
 	}
 
-	private void ReleaseBeeFromEvent() {
+	private void ReleaseBeeFromEvent() 
+	{
 		Bee.Instance.UpdateState(BeeState.Idle);
 	}
 
-	private IEnumerator FinishUpdatingAnimationState(string stateName) {
-		while(!_playAnimation.CurrentAnimationState(stateName)) {
+	private IEnumerator FinishUpdatingAnimationState (string stateName) 
+	{
+		while (!_playAnimation.CurrentAnimationState(stateName)) 
+		{
 			yield return null;
 		}
 	}
 
-	private void EnableChestAnimation() {
+	private void EnableChestAnimation() 
+	{
 		_playAnimation.SetBoolParameter(STARTED_ANIMATION_PARAMETER_NAME, true);
 	}
 
-	private void SetOpenChestAnimation() {
+	private void SetOpenChestAnimation() 
+	{
 		_playAnimation.SetBoolParameter(_boolAnimatorParameterName, true);
 	}
 
-	private void SetCloseChestAnimation() {
+	private void SetCloseChestAnimation() 
+	{
 		_playAnimation.SetBoolParameter(_boolAnimatorParameterName, false);
 	}
 
-	private IEnumerator FinishPlayingAnimation() {
-		while(!_playAnimation.IsAnimationOver()) {
+	private IEnumerator FinishPlayingAnimation() 
+	{
+		while (!_playAnimation.IsAnimationOver()) 
+		{
 			yield return null;
 		}
 	}
 
-	private void UpdateChestEventState(ChestEventState state) {
-		if(_isEventInterrupted) return;
+	private void UpdateChestEventState (ChestEventState state) 
+	{
+		if (_isEventInterrupted) return;
 
 		_chestEventState = state;
 		HandleState(state);
 	}
 
-	private void HandleState(ChestEventState stateToHandle) {
+	private void HandleState (ChestEventState stateToHandle) 
+	{
 		switch (stateToHandle)
 		{
 			case ChestEventState.GoingInFrontChest:
@@ -166,14 +177,17 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 		}
 	}
 
-	private IEnumerator MoveBeeToPosition(Vector3 position) {
-		while(!_beeMovement.IsInPlace(position)) {
+	private IEnumerator MoveBeeToPosition (Vector3 position) 
+	{
+		while (!_beeMovement.IsInPlace(position)) 
+		{
 			_beeMovement.MoveTo(position, _beeMovementConfig.MovementSpeed);
 			yield return null;
 		}
 	}
 
-	private IEnumerator MoveBeeInfrontOfChest() {
+	private IEnumerator MoveBeeInfrontOfChest() 
+	{
 		_soundComponent.PlaySound(_onceBeeGoToChestSFX);
 		yield return StartCoroutine(MoveBeeToPosition(_infrontOfChestPosition.position));
 
@@ -193,8 +207,10 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 		UpdateChestEventState(ChestEventState.InsideChest);
 	}
 
-	private void HandleCooldownDone() {
-		if(_chestEventState == ChestEventState.InforntOfChest) {
+	private void HandleCooldownDone() 
+	{
+		if (_chestEventState == ChestEventState.InforntOfChest) 
+		{
 			UpdateChestEventState(ChestEventState.GoingInsideChest);
 			return;
 		}
@@ -203,9 +219,10 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 		UpdateChestEventState(ChestEventState.LeavingChest);
 	}
 
-	public void InterruptionSetup() {
+	public void InterruptionSetup() 
+	{
 		_isEventInterrupted = true;
-		if(_cooldown.IsOnCooldown) _cooldown.StopCooldown();
+		if (_cooldown.IsOnCooldown) _cooldown.StopCooldown();
 	}
 
 	public void InterruptEvent()
@@ -215,7 +232,8 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 		StartCoroutine(InterruptionCleanup());
 	}
 
-	private IEnumerator CloseAnimation() {
+	private IEnumerator CloseAnimation() 
+	{
 		_soundComponent.PlaySound(_onceChestCloseSFX);
 		_playParticle.ToggleOff();
 		_sparkleParticle.Stop();
@@ -223,7 +241,8 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 		yield return StartCoroutine(FinishAnimation(CLOSE_STATE_NAME));
 	}
 
-	private IEnumerator OpenAnimation() {
+	private IEnumerator OpenAnimation() 
+	{
 		_soundComponent.PlaySound(_onceChestOpenSFX);
 		SetOpenChestAnimation();
 		yield return StartCoroutine(FinishAnimation(OPEN_STATE_NAME));
@@ -231,12 +250,14 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 		_sparkleParticle.Play();
 	}
 
-	private IEnumerator FinishAnimation(string animationStateName) {
+	private IEnumerator FinishAnimation (string animationStateName) 
+	{
 		yield return StartCoroutine(FinishUpdatingAnimationState(animationStateName));
 		yield return StartCoroutine(FinishPlayingAnimation());
 	}
 
-	public IEnumerator InterruptionCleanup() {
+	public IEnumerator InterruptionCleanup() 
+	{
 		switch (_chestEventState)
 		{
 			case ChestEventState.OpeningChest:
@@ -261,15 +282,18 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 		_isEventInterrupted = false;
 	}
 
-	private void SubscribeToEvents() {
+	private void SubscribeToEvents() 
+	{
 		_cooldown.OnCooldownOver += HandleCooldownDone;
 	}
 
-	private void UnsubscribeToEvents() {
+	private void UnsubscribeToEvents() 
+	{
 		_cooldown.OnCooldownOver -= HandleCooldownDone;
 	}
 
-	private void OnDestroy() {
+	private void OnDestroy() 
+	{
 		UnsubscribeToEvents();
 	}
 

@@ -5,7 +5,6 @@ using UnityEngine;
 public class RotateObject : MonoBehaviour
 {
 	[SerializeField] float speed;
-	
 	private bool _canRotate = false;
 	
 	public void EnableRotation()
@@ -20,8 +19,7 @@ public class RotateObject : MonoBehaviour
 	
 	void Update()
 	{
-		if(!_canRotate) return;
-		
+		if (!_canRotate) return;
 		transform.Rotate(Vector3.up, speed * Time.deltaTime, Space.Self);
 	}
 }

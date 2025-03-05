@@ -17,7 +17,7 @@ public class SheepAmbience : MonoBehaviour
 		StartCoroutine(SheepBeehCoroutine(_playSheepSoundRangeTime.GetRandomValueWithinRange()));
 	}
 	
-	private IEnumerator SheepBeehCoroutine(float secondsToWait)
+	private IEnumerator SheepBeehCoroutine (float secondsToWait)
 	{
 		yield return new WaitForSeconds(secondsToWait);
 		_soundComponent.PlaySound(_onceSheepBeehSFX);

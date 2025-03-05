@@ -5,8 +5,8 @@ public class Toggle : MonoBehaviour, IInteractable
 {
     private IToggleComponent[] _toggleComponent;
 
-	public bool CanInterrupt { get ; set ; }
-	public bool MultipleInteractions { get; set; }
+	public bool CanInterrupt {get; set;}
+	public bool MultipleInteractions {get; set;}
 
 	public void Start()
     {

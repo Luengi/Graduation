@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum RaycastPerspective {
+public enum RaycastPerspective 
+{
 	None,
 	MainCamera,
 	SecondaryCamera,

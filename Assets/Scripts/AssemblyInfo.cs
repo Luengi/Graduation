@@ -1,3 +1,3 @@
 using System.Runtime.CompilerServices;
 
-[ assembly: InternalsVisibleTo("EditMode"), InternalsVisibleTo("PlayMode") ]
+[assembly: InternalsVisibleTo("EditMode"), InternalsVisibleTo("PlayMode")]
