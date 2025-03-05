@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WardrobeItem : MonoBehaviour
 {
-    public enum ItemType { hat, necklace, belt, goggles};
+    public enum ItemType {hat, necklace, belt, goggles};
 
     public ItemType itemType;
 }

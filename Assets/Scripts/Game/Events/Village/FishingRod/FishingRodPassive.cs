@@ -3,10 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[
-	RequireComponent(typeof(SoundComponent)),
-	RequireComponent(typeof(PlayParticle))
-]
+[RequireComponent(typeof(SoundComponent)), RequireComponent(typeof(PlayParticle))]
 public class FishingRodPassive : PlotEvent, IInterruptible
 {
 	private const string SUPRISE_ANIMATION_PARAMETER = "IsSuprised";
@@ -62,15 +59,15 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 		UpdateState(FishingRodPassiveState.ApproachingStump);
 	}
 	
-	private void UpdateState(FishingRodPassiveState stateToUpdate)
+	private void UpdateState (FishingRodPassiveState stateToUpdate)
 	{
 		_fishingRodEventState = stateToUpdate;
 		HandleState(_fishingRodEventState);
 	}
 	
-	private void HandleState(FishingRodPassiveState state)
+	private void HandleState (FishingRodPassiveState state)
 	{
-		switch(state)
+		switch (state)
 		{
 			case FishingRodPassiveState.ApproachingStump:
 				StartCoroutine(ApproachStump());
@@ -152,7 +149,7 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 		StopAllCoroutines();
 	}
 	
-	private IEnumerator MoveBeeToPosition(Vector3 position)
+	private IEnumerator MoveBeeToPosition (Vector3 position)
 	{
 		while (!_beeObjectMovement.IsInPlace(position))
 		{
@@ -161,12 +158,11 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 			yield return null;
 		}
 
-		Quaternion targetRotation = 
-			Quaternion.LookRotation((_riverLook.position - _beeMovement.transform.position).normalized);
+		Quaternion targetRotation = Quaternion.LookRotation((_riverLook.position - _beeMovement.transform.position).normalized);
 		yield return StartCoroutine(SmoothRotationCoroutine(targetRotation, 0.25f));
 	}
 
-	IEnumerator SmoothRotationCoroutine(Quaternion targetRotation, float duration)
+	IEnumerator SmoothRotationCoroutine (Quaternion targetRotation, float duration)
 	{
 		Quaternion startRotation = _beeMovement.transform.rotation;
 		float timeElapsed = 0f;

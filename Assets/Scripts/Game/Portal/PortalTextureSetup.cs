@@ -7,7 +7,8 @@ public class PortalTextureSetup : MonoBehaviour
 
     void Start()
     {
-        if(_secondaryCamera.targetTexture != null) {
+        if (_secondaryCamera.targetTexture != null) 
+		{
 			_secondaryCamera.targetTexture.Release();
 		}
 		_secondaryCamera.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);

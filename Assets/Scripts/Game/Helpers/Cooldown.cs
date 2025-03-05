@@ -11,7 +11,7 @@ public class Cooldown
 
 	public event Action OnCooldownOver;
 
-	public void StartCooldown(float cooldownTime)
+	public void StartCooldown (float cooldownTime)
 	{
 		if (_isOnCooldown) 
 		{
@@ -29,13 +29,14 @@ public class Cooldown
 		_isOnCooldown = false;
 	}
 
-	public void DecreaseCooldown(float time)
+	public void DecreaseCooldown (float time)
 	{
 		if (!_isOnCooldown) return;
 	
 		_cooldownTimer += time;
 
-		if (IsCooldownOver()) {
+		if (IsCooldownOver()) 
+		{
 			ResetCooldown();
 			OnCooldownOver?.Invoke();
 		}

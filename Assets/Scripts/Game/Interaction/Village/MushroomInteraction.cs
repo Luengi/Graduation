@@ -1,12 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-[
-	RequireComponent(typeof(PlayAnimation)),
-	RequireComponent(typeof(BoxCollider)),
-	RequireComponent(typeof(PlayParticle)),
-	RequireComponent(typeof(SoundComponent)),
-]
+[RequireComponent(typeof(PlayAnimation)), RequireComponent(typeof(BoxCollider)), RequireComponent(typeof(PlayParticle)), RequireComponent(typeof(SoundComponent)), ]
 public class MushroomInteraction : MonoBehaviour, IInteractable
 {
 	[Header("Animation")]
@@ -25,10 +20,11 @@ public class MushroomInteraction : MonoBehaviour, IInteractable
 	private PlayParticle _playParticle;
 	private SoundComponent _soundComponent;
 
-	public bool CanInterrupt { get; set; }
-	public bool MultipleInteractions { get; set; }
+	public bool CanInterrupt {get; set;}
+	public bool MultipleInteractions {get; set;}
 
-	void Awake() {
+	void Awake() 
+	{
 		_playAnimation = GetComponent<PlayAnimation>();
 		_playParticle = GetComponent<PlayParticle>();
 		_soundComponent = GetComponent<SoundComponent>();
@@ -42,7 +38,7 @@ public class MushroomInteraction : MonoBehaviour, IInteractable
 
 	public void Interact()
 	{
-		if(_isPlaying) return;
+		if (_isPlaying) return;
 
 		_isPlaying = true;
 		StartCoroutine(MushroomAnimation());
@@ -59,12 +55,14 @@ public class MushroomInteraction : MonoBehaviour, IInteractable
 		_isPlaying = false;
 	}
 
-	private IEnumerator EnableMushroomAnimation() {
+	private IEnumerator EnableMushroomAnimation() 
+	{
 		_playAnimation.SetBoolParameter(_mushroomAnimationParameterName, true);
 		yield return StartCoroutine(_playAnimation.WaitForAnimationToStart(_mushroomAnimationStateName));
 	}
 
-	private void ResetInteraction() {
+	private void ResetInteraction() 
+	{
 		_isPlaying = false;
 		_playAnimation.SetBoolParameter(_mushroomAnimationParameterName, false);
 		_playParticle.ToggleOff();

@@ -14,9 +14,10 @@ public class PlotsManager : Singleton<PlotsManager>
 	public static event Action<Plot> OnPlotDeactivated;
 	public static event Action<Plot> OnPlotActivated;
 
-    internal protected override void Awake() {
+    internal protected override void Awake() 
+	{
 		base.Awake();
-		if(_plotObjects.Length != AMOUNT_OF_PLOTS)
+		if (_plotObjects.Length != AMOUNT_OF_PLOTS)
 			Debug.LogWarning($"The amount of plot objects in the PlotsManager is not equal to the amount of plots in the game.\nThere should be {AMOUNT_OF_PLOTS} plot objects in the PlotsManager, but there are only {_plotObjects.Length} plot objects.");
 	}
 
@@ -28,7 +29,7 @@ public class PlotsManager : Singleton<PlotsManager>
 		ImageTrackingPlotUpdatedResponse.OnPlotNeedsDeactivation += HandleMaxDistanceReached;
 	}
 
-	private void HandleMaxDistanceReached(Plot plot)
+	private void HandleMaxDistanceReached (Plot plot)
 	{
 		_currentPlot = Plot.None;
 		_nextPlot = Plot.None;
@@ -42,14 +43,14 @@ public class PlotsManager : Singleton<PlotsManager>
 		_nextPlot = Plot.None;
 	}
 
-	private void HandlePlotActivated(Plot plot)
+	private void HandlePlotActivated (Plot plot)
 	{
 		_nextPlot = plot;
 		ActivateCurrentPlotObjects(plot);
 		OnPlotActivated?.Invoke(plot);
 	}
 
-	private void DeactivateCurrentPlotObjects(Plot plotToDeactivate)
+	private void DeactivateCurrentPlotObjects (Plot plotToDeactivate)
 	{
 		foreach (var plotObject in _plotObjects)
 		{
@@ -63,7 +64,7 @@ public class PlotsManager : Singleton<PlotsManager>
 		}
 	}
 
-	private void ActivateCurrentPlotObjects(Plot plotToActivate)
+	private void ActivateCurrentPlotObjects (Plot plotToActivate)
     {
         foreach (var plotObject in _plotObjects)
         {

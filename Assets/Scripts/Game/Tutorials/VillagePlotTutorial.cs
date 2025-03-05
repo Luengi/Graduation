@@ -28,7 +28,7 @@ public class VillagePlotTutorial : MonoBehaviour
 		StartCoroutine(ForceEndTutorialTimer(_secondsToForceEndTutorial));
 	}
 	
-	private IEnumerator ForceEndTutorialTimer(float secondsToWait)
+	private IEnumerator ForceEndTutorialTimer (float secondsToWait)
 	{
 		yield return new WaitForSeconds(secondsToWait);
 		EndTutorial();
@@ -41,7 +41,7 @@ public class VillagePlotTutorial : MonoBehaviour
 		gameObject.SetActive(false);
 	}
 	
-	private void OnInteract(Collider collider)
+	private void OnInteract (Collider collider)
 	{
 		EndTutorial();
 	}
@@ -55,7 +55,7 @@ public class VillagePlotTutorial : MonoBehaviour
 		}
 
 		_tapIconsList = new List<GameObject>();
-		foreach(Transform child in _tapIconsContainer.transform)
+		foreach (Transform child in _tapIconsContainer.transform)
 		{
 			_tapIconsList.Add(child.gameObject);
 		}
@@ -73,11 +73,11 @@ public class VillagePlotTutorial : MonoBehaviour
 		SetObjectsStateInList(_tapIconsList, false);
 	}
 	
-	private void SetObjectsStateInList(List<GameObject> list, bool toggleState)
+	private void SetObjectsStateInList (List<GameObject> list, bool toggleState)
 	{
-		if(list.Count == 0) return;
+		if (list.Count == 0) return;
 
-		foreach(GameObject icon in list)
+		foreach (GameObject icon in list)
 		{
 			icon.SetActive(toggleState);
 		}

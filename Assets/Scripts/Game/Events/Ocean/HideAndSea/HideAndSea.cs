@@ -18,15 +18,18 @@ public class HideAndSea : PlotEvent, IInterruptible
 			LoadHideSpots();
 	}
 
-	private void Start() {
+	private void Start() 
+	{
 		SubscribeToEvents();
 	}
 
-	private void Update() {
+	private void Update() 
+	{
 		_cooldown.DecreaseCooldown(Time.deltaTime);
 	}
 
-	internal void SetUpPassiveEvent() {
+	internal void SetUpPassiveEvent() 
+	{
 		_state = EventState.InitialWaiting;
 	}
 
@@ -49,7 +52,7 @@ public class HideAndSea : PlotEvent, IInterruptible
 		FireStartEvent(metadata);
 	}
 
-	internal UpdatePassiveEventCollection SetupStartEventMetadata(Transform hideSpot)
+	internal UpdatePassiveEventCollection SetupStartEventMetadata (Transform hideSpot)
 	{
 		return new UpdatePassiveEventCollection
 		{
@@ -90,7 +93,7 @@ public class HideAndSea : PlotEvent, IInterruptible
 		_cooldown.OnCooldownOver -= UpdateEventStatus;
 	}
 
-	internal Transform GetRandomHideSpot(List<Transform> hideSpots, int randomIndex) => hideSpots[randomIndex];
+	internal Transform GetRandomHideSpot (List<Transform> hideSpots, int randomIndex) => hideSpots[randomIndex];
 
 	private void OnDestroy()
 	{
@@ -106,7 +109,7 @@ public class HideAndSea : PlotEvent, IInterruptible
 
 	public void InterruptEvent()
 	{
-		if(_cooldown.IsOnCooldown) _cooldown.StopCooldown();
+		if (_cooldown.IsOnCooldown) _cooldown.StopCooldown();
 
 		Bee.Instance.UpdateState(BeeState.Idle);
 		OnInterruptedDone?.Invoke(this);

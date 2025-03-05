@@ -6,21 +6,20 @@ public class ToggleRotate : MonoBehaviour
 {
     [SerializeField] internal float _openAngle = 90.0f;
     [SerializeField] internal float _rotateSpeed = 15f;
-
     [SerializeField] internal Axis _rotationAxis = Axis.Y;
 	[SerializeField] internal Transform _objectToRotate;
     
     private Quaternion _closedRotation;
     private Quaternion _openRotation;
 
-    public IEnumerator RotateCoroutine(Quaternion targetRotation)
+    public IEnumerator RotateCoroutine (Quaternion targetRotation)
     {
         while (Quaternion.Angle(_objectToRotate.rotation, targetRotation) > 0.01f)
         {
             _objectToRotate.rotation = RotateToTarget(_objectToRotate.rotation, targetRotation, _rotateSpeed);
             yield return null; // Wait for the next frame
         }
-        //make sure the rotation reach to the target rotation
+        // make sure the rotation reach to the target rotation
         _objectToRotate.rotation = targetRotation;
     }
     
@@ -32,7 +31,7 @@ public class ToggleRotate : MonoBehaviour
             _objectToRotate.rotation = RotateToTarget(_objectToRotate.rotation, _openRotation, _rotateSpeed);
             yield return null; // Wait for the next frame
         }
-        //make sure the rotation reach to the target rotation
+        // make sure the rotation reach to the target rotation
         _objectToRotate.rotation = _openRotation;
     }
     
@@ -44,14 +43,13 @@ public class ToggleRotate : MonoBehaviour
             _objectToRotate.rotation = RotateToTarget(_objectToRotate.rotation, _closedRotation, _rotateSpeed);
             yield return null; // Wait for the next frame
         }
-        //make sure the rotation reach to the target rotation
+        // make sure the rotation reach to the target rotation
         _objectToRotate.rotation = _closedRotation;
     }
     
-    internal Quaternion RotateToTarget(Quaternion origin, Quaternion target, float speed) =>
-        Quaternion.RotateTowards(origin, target, speed * Time.deltaTime);
+    internal Quaternion RotateToTarget (Quaternion origin, Quaternion target, float speed) => Quaternion.RotateTowards(origin, target, speed * Time.deltaTime);
 
-    internal Quaternion GetOpenRotation(Axis axis)
+    internal Quaternion GetOpenRotation (Axis axis)
     {
         Vector3 rotationVector = _closedRotation.eulerAngles;
 
@@ -70,7 +68,7 @@ public class ToggleRotate : MonoBehaviour
 
         return Quaternion.Euler(rotationVector);
     }
-    internal Quaternion GetCloseRotation(Axis axis)
+    internal Quaternion GetCloseRotation (Axis axis)
     {
         Vector3 rotationVector = _openRotation.eulerAngles;
 

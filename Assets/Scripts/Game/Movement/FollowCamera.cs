@@ -4,7 +4,8 @@ public class FollowCamera : FollowObject
 {
 	bool _isFollowing = true;
 
-	private void Start() {
+	private void Start() 
+	{
 		Bee.OnBeeStateChanged += HandleBeeStateChange;
 	}
 
@@ -12,7 +13,7 @@ public class FollowCamera : FollowObject
 	{
 		if (!_isFollowing) return;
 
-		if(_followConfiguration.LookAtTarget) transform.LookAt(_followConfiguration.Target);
+		if (_followConfiguration.LookAtTarget) transform.LookAt(_followConfiguration.Target);
 
 		// Makes sure to stay in front of the Camera even if it rotates
 		Vector3 targetPosition = _followConfiguration.Target.position + _followConfiguration.Target.forward * _followConfiguration.Distance + _followConfiguration.Offset;
@@ -20,11 +21,14 @@ public class FollowCamera : FollowObject
 		transform.position = Vector3.Lerp(transform.position, targetPosition, scaledSpeed);
 	}
 
-	private void HandleBeeStateChange(BeeState state) {		
+	private void HandleBeeStateChange (BeeState state) 
+	{		
 		_isFollowing = state == BeeState.FollowingCamera;
 	}
 
-	private void OnDestory() {
+    // TODO: see if this needs to be OnDestroy() !!!
+    private void OnDestory() 
+	{
 		Bee.OnBeeStateChanged -= HandleBeeStateChange;
 	}
 }

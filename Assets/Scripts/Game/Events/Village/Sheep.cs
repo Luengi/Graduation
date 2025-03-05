@@ -1,9 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-[
-	RequireComponent(typeof(PlayAnimation))
-]
+[RequireComponent(typeof(PlayAnimation))]
 public class Sheep : MonoBehaviour
 {	
 	[SerializeField] private Sound _onceSheepJumpSFX;
@@ -15,13 +13,13 @@ public class Sheep : MonoBehaviour
 		_soundComponent = GetComponent<SoundComponent>();
 	}
 	
-	public void Jump(float jumpForce,float jumpDuration)
+	public void Jump (float jumpForce,float jumpDuration)
 	{
 		_soundComponent.PlaySound(_onceSheepJumpSFX);
 		StartCoroutine(JumpEnumerator(jumpForce, jumpDuration));
 	}
 
-	private IEnumerator JumpEnumerator(float jumpForce, float jumpDuration)
+	private IEnumerator JumpEnumerator (float jumpForce, float jumpDuration)
 	{
 		Vector3 startPosition = transform.position;
 		Vector3 peakPosition = startPosition + Vector3.up * jumpForce;
@@ -48,5 +46,4 @@ public class Sheep : MonoBehaviour
 		
 		transform.position = startPosition;
 	}
-	
 }

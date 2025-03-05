@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[RequireComponent(
-typeof(Fish),
-typeof(SoundComponent)
-)]
+[RequireComponent(typeof(Fish), typeof(SoundComponent))]
 public class FishSpeedUpBehaviour : MonoBehaviour
 {
 	[SerializeField] internal float _moveSpeed = 0.1f;
@@ -47,13 +44,13 @@ public class FishSpeedUpBehaviour : MonoBehaviour
 		StartCoroutine(FishTappedCoroutine(_originalMoveSpeed, _speedUpDuration));
 	}
 
-	private void ApplySpeedUpEffect(float originalMoveSpeed, float targetSpeed)
+	private void ApplySpeedUpEffect (float originalMoveSpeed, float targetSpeed)
 	{
 		StartCoroutine(SmoothSpeedChangeCoroutine(originalMoveSpeed, targetSpeed, _speedChangeDuration));
 		_particleSystem.Play();
 	}
 
-	private void RemoveSpeedUpEffect(float originalMoveSpeed)
+	private void RemoveSpeedUpEffect (float originalMoveSpeed)
 	{
 		_soundComponent.StopSound();
 		
@@ -62,13 +59,13 @@ public class FishSpeedUpBehaviour : MonoBehaviour
 		_particleSystem.Stop();
 	}
 	
-	private void ChangeMoveSpeed(float originalMoveSpeed, float targetMoveSpeed, float percentageComplete)
+	private void ChangeMoveSpeed (float originalMoveSpeed, float targetMoveSpeed, float percentageComplete)
 	{
 		_moveSpeed = Mathf.Lerp(originalMoveSpeed, targetMoveSpeed, percentageComplete);
 		_fish.MoveSpeed = _moveSpeed;
 	}
 
-	IEnumerator FishTappedCoroutine(float originalMoveSpeed, float speedUpDuration)
+	IEnumerator FishTappedCoroutine (float originalMoveSpeed, float speedUpDuration)
 	{
 		ApplySpeedUpEffect(originalMoveSpeed, _multipliedSpeed);
 
@@ -77,12 +74,12 @@ public class FishSpeedUpBehaviour : MonoBehaviour
 		RemoveSpeedUpEffect(originalMoveSpeed);
 	}
 
-	internal IEnumerator SmoothSpeedChangeCoroutine(float originalMoveSpeed, float targetMoveSpeed, float smoothChangeDuration)
+	internal IEnumerator SmoothSpeedChangeCoroutine (float originalMoveSpeed, float targetMoveSpeed, float smoothChangeDuration)
 	{
 		float timeElapsed = 0f;
 		float percentageComplete;
 		
-		while(timeElapsed < smoothChangeDuration)
+		while (timeElapsed < smoothChangeDuration)
 		{
 			percentageComplete = timeElapsed / smoothChangeDuration;
 			ChangeMoveSpeed(originalMoveSpeed, targetMoveSpeed, percentageComplete);

@@ -33,18 +33,18 @@ public class ObjectMovement : MonoBehaviour
 		if (_allowAvoidObject) _directionsToCheck = _avoidObstacle.CalculateDirections(_directionCount);
 	}
 
-	public void UpdatePosition(Vector3 position) {
+	public void UpdatePosition (Vector3 position) 
+	{
 		transform.position = position;
 	}
 
-	public void MoveTo(Vector3 position, float speed, float tolerance = DISTANCE_TOLERANCE , float smoothness = SMOOTHNESS)
+	public void MoveTo (Vector3 position, float speed, float tolerance = DISTANCE_TOLERANCE , float smoothness = SMOOTHNESS)
 	{
 		Vector3 moveVector = CalculateMovement(position, speed);
-
 		SmootherAndApplyMovement(speed, moveVector, smoothness);
 	}
 
-	public void MoveAroundPivot(Vector3 position, Vector3 axis,  float distance, float rotateSpeed, float moveSpeed)
+	public void MoveAroundPivot (Vector3 position, Vector3 axis,  float distance, float rotateSpeed, float moveSpeed)
 	{ 
 		Vector3 direction = (transform.position - position).normalized;
 
@@ -71,7 +71,7 @@ public class ObjectMovement : MonoBehaviour
 		}
 	}
 
-	private void FaceDirection(float rotateSpeed)
+	private void FaceDirection (float rotateSpeed)
 	{
 		Vector3 movementDirection = (transform.position - _previousPosition).normalized;
 		
@@ -81,7 +81,7 @@ public class ObjectMovement : MonoBehaviour
 		_previousPosition = transform.position;
 	}
 	
-	private Vector3 CalculateMovement(Vector3 position, float speed)
+	private Vector3 CalculateMovement (Vector3 position, float speed)
 	{
 		Vector3 targetVector = position - transform.position;
 		Vector3 avoidVector = Vector3.zero;
@@ -94,7 +94,7 @@ public class ObjectMovement : MonoBehaviour
 		return moveVector;
 	}
 
-	private void SmootherAndApplyMovement(float speed, Vector3 moveVector , float smoothTime)
+	private void SmootherAndApplyMovement (float speed, Vector3 moveVector , float smoothTime)
 	{
 		moveVector = Vector3.SmoothDamp(transform.forward, moveVector, ref _currentVelocity, smoothTime);
 		moveVector = moveVector.normalized * speed;
@@ -104,7 +104,7 @@ public class ObjectMovement : MonoBehaviour
 		transform.position += moveVector * Time.deltaTime;
 	}
 
-	public void SnapRotationTowards(Vector3 targetPosition)
+	public void SnapRotationTowards (Vector3 targetPosition)
     {
         Vector3 direction = (targetPosition - transform.position).normalized;
         if (direction == Vector3.zero) return;
@@ -113,33 +113,37 @@ public class ObjectMovement : MonoBehaviour
         transform.rotation = targetRotation;
     }
 
-	public IEnumerator MoveUntilObjectReached(Vector3 targetPosition, float speed, float tolerance = DISTANCE_TOLERANCE) {
-		while (!IsInPlace(targetPosition, tolerance)) {
+	public IEnumerator MoveUntilObjectReached (Vector3 targetPosition, float speed, float tolerance = DISTANCE_TOLERANCE) 
+	{
+		while (!IsInPlace(targetPosition, tolerance)) 
+		{
 			MoveTo(targetPosition, speed);
 			yield return null;
 		}
 	}
 
-	public IEnumerator RotateUntilLookAt(Vector3 targetPosition, float speed) {
-		while (!IsLookingAt(targetPosition)) {
+	public IEnumerator RotateUntilLookAt (Vector3 targetPosition, float speed) 
+	{
+		while (!IsLookingAt(targetPosition)) 
+		{
 			SmoothRotate(transform.rotation, Quaternion.LookRotation(targetPosition - transform.position), speed);
 			yield return null;
 		}
 	}
 
-	private bool IsLookingAt(Vector3 targetPosition)
+	private bool IsLookingAt (Vector3 targetPosition)
 	{
 		Vector3 direction = (targetPosition - transform.position).normalized;
 		Quaternion targetRotation = Quaternion.LookRotation(direction);
 		return Quaternion.Angle(transform.rotation, targetRotation) < 1f;
 	}
 
-	public void SmoothRotate(Quaternion startRotation, Quaternion targetRotation, float rotationSpeed)
+	public void SmoothRotate (Quaternion startRotation, Quaternion targetRotation, float rotationSpeed)
     {
         transform.rotation = Quaternion.Slerp(startRotation, targetRotation, rotationSpeed);
     }
 
-    public bool IsInPlace(Vector3 position, float tolerance = DISTANCE_TOLERANCE) => ApproximatelyInPlace(position, tolerance);
+    public bool IsInPlace (Vector3 position, float tolerance = DISTANCE_TOLERANCE) => ApproximatelyInPlace(position, tolerance);
 
-	public bool ApproximatelyInPlace(Vector3 position, float tolerance) => Vector3.Distance(transform.position, position) <= tolerance;
+	public bool ApproximatelyInPlace (Vector3 position, float tolerance) => Vector3.Distance(transform.position, position) <= tolerance;
 }

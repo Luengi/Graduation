@@ -6,7 +6,7 @@ public class AvoidObstacle : MonoBehaviour
 {
     private Vector3 _currentObstacleAvoidanceVelocity;
     
-    public Vector3 CalculateObstacleAvoidance(float speed, Transform transform, float obstacleDistance, Vector3[] directionsToCheck)
+    public Vector3 CalculateObstacleAvoidance (float speed, Transform transform, float obstacleDistance, Vector3[] directionsToCheck)
     {
         Vector3 obstacleVector = Vector3.zero;
 
@@ -22,7 +22,7 @@ public class AvoidObstacle : MonoBehaviour
         return obstacleVector;
     }
 
-    private Vector3 FindBestDirectionToAvoid(float speed, Transform transform, float obstacleDistance, Vector3[] directionsToCheck)
+    private Vector3 FindBestDirectionToAvoid (float speed, Transform transform, float obstacleDistance, Vector3[] directionsToCheck)
     {
         // Check if the current avoidance velocity can still be used
         if (IsClearPathAhead(transform, obstacleDistance))
@@ -33,7 +33,7 @@ public class AvoidObstacle : MonoBehaviour
         return DetermineBestAvoidanceDirection(speed, transform, obstacleDistance, directionsToCheck);
     }
 
-    private bool IsClearPathAhead(Transform transform, float obstacleDistance)
+    private bool IsClearPathAhead (Transform transform, float obstacleDistance)
     {
         if (_currentObstacleAvoidanceVelocity != Vector3.zero)
         {
@@ -45,7 +45,7 @@ public class AvoidObstacle : MonoBehaviour
         return false;
     }
 
-    private Vector3 DetermineBestAvoidanceDirection(float speed, Transform transform, float obstacleDistance, Vector3[] directionsToCheck)
+    private Vector3 DetermineBestAvoidanceDirection (float speed, Transform transform, float obstacleDistance, Vector3[] directionsToCheck)
     {
         Vector3 bestDirection = Vector3.zero;
         float maxDistance = float.MinValue;
@@ -73,7 +73,7 @@ public class AvoidObstacle : MonoBehaviour
         return Vector3.ClampMagnitude(bestDirection.normalized * speed - transform.forward, 4f);
     }
 
-    private bool TryGetObstacleHit(Transform transform, Vector3 direction, float obstacleDistance, out float hitDistance)
+    private bool TryGetObstacleHit (Transform transform, Vector3 direction, float obstacleDistance, out float hitDistance)
     {
         if (Physics.Raycast(transform.position, direction, out RaycastHit hit, obstacleDistance, LayerMask.GetMask("Obstacle")))
         {
@@ -85,7 +85,7 @@ public class AvoidObstacle : MonoBehaviour
         return false;
     }
 
-    public Vector3[] CalculateDirections(int count)
+    public Vector3[] CalculateDirections (int count)
     {
         Vector3[] directions = new Vector3[count];
         float goldenRatio = (1 + Mathf.Sqrt(5)) / 2;

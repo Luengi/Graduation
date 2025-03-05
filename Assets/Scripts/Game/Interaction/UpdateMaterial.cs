@@ -10,18 +10,18 @@ public class UpdateMaterial : MonoBehaviour
 
 	private void Awake()
 	{
-		if(_renderer == null) Debug.LogWarning("Mesh Renderer is required by Update Material to work correctly");
+		if (_renderer == null) Debug.LogWarning("Mesh Renderer is required by Update Material to work correctly");
 	}
 
-	public void UpdateMaterialByName(string name)
+	public void UpdateMaterialByName (string name)
 	{
-		if(_renderer == null || _currentMaterialName == name) return;
+		if (_renderer == null || _currentMaterialName == name) return;
 		
 		_previousMaterialName = _currentMaterialName;
 
 		Material material = GetMaterialByName(name);
 		
-		if(material == null) return;
+		if (material == null) return;
 		
 		_currentMaterialName = name;
 		_renderer.material = material;
@@ -29,11 +29,11 @@ public class UpdateMaterial : MonoBehaviour
 
 	public void UpdateToPreviousMaterial() => UpdateMaterialByName(_previousMaterialName);
 
-	private Material GetMaterialByName(string name)
+	private Material GetMaterialByName (string name)
 	{
-		foreach(MaterialNameCollection materialNameCollection in _materials)
+		foreach (MaterialNameCollection materialNameCollection in _materials)
 		{
-			if(materialNameCollection.Name != name) continue;
+			if (materialNameCollection.Name != name) continue;
 
 			return materialNameCollection.Material;
 		}
