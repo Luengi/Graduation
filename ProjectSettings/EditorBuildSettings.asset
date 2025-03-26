@@ -5,15 +5,6 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/OceanFunctionality.unity
-    guid: 23b9b52b378d34643b61975be90dab1e
-  - enabled: 0
-    path: Assets/Scenes/ThirdPlayTestFinalized.unity
-    guid: 23e89d63489c2be47810034ea9b3b5ba
-  - enabled: 0
-    path: Assets/Scenes/ArAnchorsTest.unity
-    guid: da428f300dcd19d4baef4ef575843fd0
   - enabled: 1
     path: Assets/Scenes/FinalScene.unity
     guid: b4f36650dcf8ee145939c4f49752c1da

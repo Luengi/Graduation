@@ -17,7 +17,7 @@ public class BeeVisit : PlotEvent, IEvent, IInterruptible
 
 	public event Action<IInterruptible> OnInterruptedDone;
 
-	void Awake()
+	private void Awake()
 	{
 		_beePlayAnimation = _beeMovement.gameObject.GetComponent<PlayAnimation>();
 		foreach (GameObject inspectable in _inspectables) 

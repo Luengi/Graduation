@@ -5,8 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(MeshRenderer))]
 public class ScrollingTexture : MonoBehaviour
 {
-    [SerializeField] Vector2 _scrollSpeedVec;
-    MeshRenderer _renderer;
+    [SerializeField] private Vector2 _scrollSpeedVec;
+    private MeshRenderer _renderer;
 
     private void Awake()
     {

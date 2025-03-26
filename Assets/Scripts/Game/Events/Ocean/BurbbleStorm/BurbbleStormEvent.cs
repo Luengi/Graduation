@@ -63,10 +63,7 @@ public class BurbbleStormEvent : PlotEvent
             PreviousEvent = PassiveEventManager.Instance.CurrentEventPlaying,
             CurrentEvent = PassiveEvent.BurbbleStorm,
             State = BeeState.SuckInStorm,
-            Metadata = new EventMetadata
-            {
-                Target = hideSpot
-            }
+            Metadata = new EventMetadata{Target = hideSpot}
         };
     }
     

@@ -21,7 +21,7 @@ public class CaughtObject : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
     }
     
-    void Update()
+    private void Update()
     {
         SetSpringStrength();
         Rotate();

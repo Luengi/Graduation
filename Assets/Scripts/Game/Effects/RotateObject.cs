@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RotateObject : MonoBehaviour
 {
-	[SerializeField] float speed;
+	[SerializeField] private float speed;
 	private bool _canRotate = false;
 	
 	public void EnableRotation()
@@ -17,7 +17,7 @@ public class RotateObject : MonoBehaviour
 		_canRotate = false;
 	}
 	
-	void Update()
+	private void Update()
 	{
 		if (!_canRotate) return;
 		transform.Rotate(Vector3.up, speed * Time.deltaTime, Space.Self);
