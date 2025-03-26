@@ -46,7 +46,7 @@ public class ImageTrackingPlotUpdatedResponse : MonoBehaviour, IImageTrackingRes
 		return objectToManipulate;
 	}
 
-	private void HandlePlotInitialActivation(Plot plotActivated) 
+	private void HandlePlotInitialActivation (Plot plotActivated) 
 	{
 		_initialHandledPlots.Add(plotActivated);
 	}

@@ -162,7 +162,7 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 		yield return StartCoroutine(SmoothRotationCoroutine(targetRotation, 0.25f));
 	}
 
-	IEnumerator SmoothRotationCoroutine (Quaternion targetRotation, float duration)
+	private IEnumerator SmoothRotationCoroutine (Quaternion targetRotation, float duration)
 	{
 		Quaternion startRotation = _beeMovement.transform.rotation;
 		float timeElapsed = 0f;

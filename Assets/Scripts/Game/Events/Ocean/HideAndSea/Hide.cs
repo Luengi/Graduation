@@ -11,12 +11,12 @@ public class Hide : MonoBehaviour
     
 	public static event Action OnHidden;
 
-    void Start()
+    private void Start()
     {
 		SubscribeToEvents();
     }
 
-	void FixedUpdate()
+	private void FixedUpdate()
 	{
 		if (CannotHide()) return;
 

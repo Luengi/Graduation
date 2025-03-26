@@ -48,7 +48,7 @@ public class Tornado : MonoBehaviour
 
     public float lift => _lift;
 
-	void Awake() 
+	private void Awake() 
     {
         SetUp();
 	}
@@ -88,7 +88,7 @@ public class Tornado : MonoBehaviour
             _caughtObjects.Add(_bee.GetComponent<CaughtObject>());
     }
 
-    void Update()
+    private void Update()
     {
         // try pull object in the center if it exceed maxdistance
         ApplyForce();

@@ -15,7 +15,7 @@ public class BeeSuckInBurbbleStorm : MonoBehaviour
         _playAnimation = GetComponent<PlayAnimation>();
     }
 
-    void Start()
+    private void Start()
     {
         SetUp();
         SubscribeToEvents();
