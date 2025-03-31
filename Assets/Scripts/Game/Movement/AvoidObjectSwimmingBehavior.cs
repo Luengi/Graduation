@@ -60,17 +60,12 @@ public class AvoidObjectSwimmingBehavior : MonoBehaviour
 
         SmoothAndApplyMovement(speed);
     }
-
-<<<<<<< HEAD
     public void SetBoundCenter(Transform boundTransform)
     {
         _boundCenter = boundTransform;
     }
 
-    private bool IsOutOfBounds(out Vector3 boundReturnVector)
-=======
     private bool IsOutOfBounds (out Vector3 boundReturnVector)
->>>>>>> origin/development-amke
     {
         boundReturnVector = CalculateBoundReturnVector();
         return boundReturnVector != Vector3.zero;
