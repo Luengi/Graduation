@@ -61,6 +61,11 @@ public class AvoidObjectSwimmingBehavior : MonoBehaviour
         SmoothAndApplyMovement(speed);
     }
 
+    public void SetBoundCenter(Transform boundTransform)
+    {
+        _boundCenter = boundTransform;
+    }
+
     private bool IsOutOfBounds(out Vector3 boundReturnVector)
     {
         boundReturnVector = CalculateBoundReturnVector();

@@ -18,6 +18,9 @@ public class ButterflyColors : MonoBehaviour
     {
         Material generatedMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
         generatedMaterial.SetColor("_BaseColor", color);
+        generatedMaterial.SetFloat("_Cull", 0);
+        generatedMaterial.SetFloat("_Glossiness", .2f);
+
         for (int i = 0; i < renderers.Length; i++)
         {
             renderers[i].material = generatedMaterial;
