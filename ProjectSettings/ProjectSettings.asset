@@ -12,8 +12,13 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
+<<<<<<< HEAD
+  companyName: Bananacat Studios
   productName: unity_project
+=======
+  companyName: DefaultCompany
+  productName: Spargi_Project
+>>>>>>> origin/development-amke
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}

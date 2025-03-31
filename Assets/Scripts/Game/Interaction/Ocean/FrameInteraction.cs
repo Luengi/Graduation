@@ -5,21 +5,20 @@ using UnityEngine;
 
 [RequireComponent(typeof(ToggleRotate))]
 public class FrameInteraction : MonoBehaviour, IInteractable, IEvent, IToggleComponent
-{
-    
-    public ToggleState CurrentToggleState { get; set; }
-    public ToggleState NextToggleState { get; set; }
+{    
+    public ToggleState CurrentToggleState {get; set;}
+    public ToggleState NextToggleState {get; set;}
     
     private bool _firstTimeOpen;
-    public bool CanInterrupt { get; set; }
-    public bool MultipleInteractions { get; set; }
+    public bool CanInterrupt {get; set;}
+    public bool MultipleInteractions {get; set;}
     
 #pragma warning disable CS0067
     public event Action OnToggleDone;
     public event Action OnEventDone;
 #pragma warning restore CS0067
     
-    public EventState State { get; set; }
+    public EventState State {get; set;}
 
     private ToggleRotate _toggleRotate;
 
@@ -44,7 +43,7 @@ public class FrameInteraction : MonoBehaviour, IInteractable, IEvent, IToggleCom
 
     private void HandleOpen()
     {
-        if(CurrentToggleState != ToggleState.On || _firstTimeOpen) return;
+        if (CurrentToggleState != ToggleState.On || _firstTimeOpen) return;
         _firstTimeOpen = true;
         OnFirstFrameOpen?.Invoke();
     }
@@ -63,14 +62,14 @@ public class FrameInteraction : MonoBehaviour, IInteractable, IEvent, IToggleCom
 
     public void Toggle()
     {
-        if(CurrentToggleState == ToggleState.Switching) return;
+        if (CurrentToggleState == ToggleState.Switching) return;
         
         //interact
         if (CurrentToggleState == ToggleState.Off) ToggleOn(); 
         else ToggleOff();
     }
     
-    private void UpdateState(ToggleState state)
+    private void UpdateState (ToggleState state)
     {
         CurrentToggleState = state;
 
@@ -78,7 +77,7 @@ public class FrameInteraction : MonoBehaviour, IInteractable, IEvent, IToggleCom
             HandleOpen();
     }
 
-    private bool IsToggleDone(ToggleState state) => state != ToggleState.Switching;
+    private bool IsToggleDone (ToggleState state) => state != ToggleState.Switching;
 
     private IEnumerator ToggleOnEnumerator()
     {

@@ -5,9 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(MeshRenderer))]
 public class ScrollingTexture : MonoBehaviour
 {
-    [SerializeField] Vector2 _scrollSpeedVec;
-
-    MeshRenderer _renderer;
+    [SerializeField] private Vector2 _scrollSpeedVec;
+    private MeshRenderer _renderer;
 
     private void Awake()
     {
@@ -19,7 +18,7 @@ public class ScrollingTexture : MonoBehaviour
         ScrollTexture(_scrollSpeedVec);
     }
 
-    private void ScrollTexture(Vector2 scrollSpeed)
+    private void ScrollTexture (Vector2 scrollSpeed)
     {
         _renderer.material.mainTextureOffset = scrollSpeed * Time.realtimeSinceStartup;
     }

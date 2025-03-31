@@ -4,10 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(FishSpeedUpBehaviour))]
-public class FishInteraction : MonoBehaviour,
-							   IInteractable,
-							   IInterruptible,
-							   IEvent
+public class FishInteraction : MonoBehaviour, IInteractable, IInterruptible, IEvent
 {
 	private const string CATCH_FISH_ANIMATION_PARAMETER = "IsCatchFish";
 
@@ -15,9 +12,9 @@ public class FishInteraction : MonoBehaviour,
 	[SerializeField] private BeeMovement _beeStats;
 
 	private PlayAnimation _beePlayAnimation;
-	public bool CanInterrupt { get; set; } = true;
-	public EventState State { get; set; }
-	public bool MultipleInteractions { get; set; } = false;
+	public bool CanInterrupt {get; set;} = true;
+	public EventState State {get; set;}
+	public bool MultipleInteractions {get; set;} = false;
 
 	public event Action OnEventDone;
 	public event Action<IInterruptible> OnInterruptedDone;
@@ -73,10 +70,9 @@ public class FishInteraction : MonoBehaviour,
 		StartCoroutine(MoveBeeToPosition(transform.position));
 	}
 
-	private IEnumerator MoveBeeToPosition(Vector3 position)
+	private IEnumerator MoveBeeToPosition (Vector3 position)
 	{
-		Quaternion targetRotation = 
-			Quaternion.LookRotation((transform.position - _beeMovement.transform.position).normalized);
+		Quaternion targetRotation = Quaternion.LookRotation((transform.position - _beeMovement.transform.position).normalized);
 		yield return StartCoroutine(SmoothRotationCoroutine(targetRotation, 0.25f));
 		// Snap to the target rotation after smooth rotation
 
@@ -90,7 +86,7 @@ public class FishInteraction : MonoBehaviour,
 		StopBeeChasing(); // Reached fish
 	}
 
-	IEnumerator SmoothRotationCoroutine(Quaternion targetRotation, float duration)
+	IEnumerator SmoothRotationCoroutine (Quaternion targetRotation, float duration)
 	{
 		Quaternion startRotation = _beeMovement.transform.rotation;
 		float timeElapsed = 0f;

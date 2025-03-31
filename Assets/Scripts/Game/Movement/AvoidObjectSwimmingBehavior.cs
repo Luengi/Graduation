@@ -47,7 +47,7 @@ public class AvoidObjectSwimmingBehavior : MonoBehaviour
         _directionsToCheck = _avoidObstacle.CalculateDirections(_viewDirectionCount);
     }
 
-    public void Move(float speed)
+    public void Move (float speed)
     {
         if (IsOutOfBounds(out Vector3 boundReturnVector))
         {
@@ -61,18 +61,27 @@ public class AvoidObjectSwimmingBehavior : MonoBehaviour
         SmoothAndApplyMovement(speed);
     }
 
+<<<<<<< HEAD
+    public void SetBoundCenter(Transform boundTransform)
+    {
+        _boundCenter = boundTransform;
+    }
+
     private bool IsOutOfBounds(out Vector3 boundReturnVector)
+=======
+    private bool IsOutOfBounds (out Vector3 boundReturnVector)
+>>>>>>> origin/development-amke
     {
         boundReturnVector = CalculateBoundReturnVector();
         return boundReturnVector != Vector3.zero;
     }
 
-    private Vector3 AdjustToBounds(Vector3 boundReturnVector, float speed)
+    private Vector3 AdjustToBounds (Vector3 boundReturnVector, float speed)
     {
         return boundReturnVector.normalized * speed;
     }
 
-    private Vector3 CalculateMovement(float speed)
+    private Vector3 CalculateMovement (float speed)
     {
         UpdateChangeDirectionTimer();
 
@@ -92,7 +101,7 @@ public class AvoidObjectSwimmingBehavior : MonoBehaviour
         return _changeDirectionTimer < 0 ? GetRandomDirection() : Vector3.zero;
     }
 
-    private void SmoothAndApplyMovement(float speed)
+    private void SmoothAndApplyMovement (float speed)
     {
         _moveVector = Vector3.SmoothDamp(_myTransform.forward, _moveVector, ref _currentVelocity, _movementSmoothDamp);
         _moveVector = _moveVector.normalized * speed;
@@ -104,11 +113,7 @@ public class AvoidObjectSwimmingBehavior : MonoBehaviour
 
     private Vector3 GetRandomDirection()
     {
-        Vector3 randomDirection = new Vector3(
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f)
-        ).normalized;
+        Vector3 randomDirection = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 
         _changeDirectionTimer = _directionResetInterval;
         return randomDirection;

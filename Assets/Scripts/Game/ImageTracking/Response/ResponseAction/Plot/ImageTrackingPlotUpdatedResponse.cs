@@ -18,33 +18,36 @@ public class ImageTrackingPlotUpdatedResponse : MonoBehaviour, IImageTrackingRes
 	public static event Action<Plot> OnPlotNeedsActivation;
 	public static event Action<Plot> OnPlotNeedsDeactivation;
 
-	private void Start() {
+	private void Start() 
+	{
 		_distanceTracker.OnMaxDistanceReached += HandleMaxDistanceReached;
 		ImageTrackingPlotActivatedResponse.OnPlotActivated += HandlePlotInitialActivation;
 	}
 
-	public GameObject Respond(GameObject objectToManipulate, ARTrackedImage trackedImage)
+	public GameObject Respond (GameObject objectToManipulate, ARTrackedImage trackedImage)
 	{
 		Plot currentPlotUpdating = GetPlot(trackedImage.referenceImage.name);
 
-		if(!_initialHandledPlots.Contains(currentPlotUpdating)) return objectToManipulate;
+		if (!_initialHandledPlots.Contains(currentPlotUpdating)) return objectToManipulate;
 
 		GameObject plotGameObject = GetGameObject(currentPlotUpdating);
 
-		if(_distanceTracker.OverMaxDistance(plotGameObject.transform, Camera.main.transform)) return objectToManipulate;
+		if (_distanceTracker.OverMaxDistance(plotGameObject.transform, Camera.main.transform)) return objectToManipulate;
 		
-		if(_currentPlotActive != currentPlotUpdating && _distanceTracker != null) {
+		if (_currentPlotActive != currentPlotUpdating && _distanceTracker != null) 
+		{
 			_currentPlotActive = currentPlotUpdating;
 			_distanceTracker.UpdateObjects(plotGameObject.transform, Camera.main.transform);
 		}
 
-		if(trackedImage.trackingState == TrackingState.Tracking) 
+		if (trackedImage.trackingState == TrackingState.Tracking) 
 			HandleTracking();
 
 		return objectToManipulate;
 	}
 
-	private void HandlePlotInitialActivation(Plot plotActivated) {
+	private void HandlePlotInitialActivation (Plot plotActivated) 
+	{
 		_initialHandledPlots.Add(plotActivated);
 	}
 
@@ -73,12 +76,13 @@ public class ImageTrackingPlotUpdatedResponse : MonoBehaviour, IImageTrackingRes
 
 	private void ActivatePlot()
 	{
-		// if(!plotGameObject.activeInHierarchy) plotGameObject.SetActive(true);
+		// if (!plotGameObject.activeInHierarchy) plotGameObject.SetActive(true);
 		_plotActiveState[_currentPlotActive] = true;
 		OnPlotNeedsActivation?.Invoke(_currentPlotActive);
 	}
 
-	private Plot GetPlot(string trackedImageName){
+	private Plot GetPlot (string trackedImageName)
+	{
 		foreach (var plotTrackedImageCollection in _plotTrackedImageCollections)
 		{
 			if (plotTrackedImageCollection.TrackedImageName != trackedImageName) continue;
@@ -89,7 +93,8 @@ public class ImageTrackingPlotUpdatedResponse : MonoBehaviour, IImageTrackingRes
 		return Plot.None;
 	}
 
-	private GameObject GetGameObject(Plot plot){
+	private GameObject GetGameObject (Plot plot)
+	{
 		foreach (var plotGameObjectCollection in _plotGameObjectCollections)
 		{
 			if (plotGameObjectCollection.Plot != plot) continue;
@@ -100,7 +105,8 @@ public class ImageTrackingPlotUpdatedResponse : MonoBehaviour, IImageTrackingRes
 		return null;
 	}
 
-	private void OnDestroy() {
+	private void OnDestroy() 
+	{
 		_distanceTracker.OnMaxDistanceReached -= HandleMaxDistanceReached;
 		ImageTrackingPlotActivatedResponse.OnPlotActivated -= HandlePlotInitialActivation;
 	}

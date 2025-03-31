@@ -1,11 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-[
-	RequireComponent(typeof(PlayAnimation)),
-	RequireComponent(typeof(BoxCollider)),
-	RequireComponent(typeof(SoundComponent)),
-]
+[RequireComponent(typeof(PlayAnimation)), RequireComponent(typeof(BoxCollider)), RequireComponent(typeof(SoundComponent)), ]
 public class PineTree : MonoBehaviour, IInteractable
 {
 	[Header("Animation")]
@@ -23,8 +19,8 @@ public class PineTree : MonoBehaviour, IInteractable
 	private SoundComponent _soundComponent;
 	private bool _isPlaying;
 	
-	public bool CanInterrupt { get; set; }
-	public bool MultipleInteractions { get; set; }
+	public bool CanInterrupt {get; set;}
+	public bool MultipleInteractions {get; set;}
 
 	private void Awake()
 	{
@@ -40,7 +36,7 @@ public class PineTree : MonoBehaviour, IInteractable
 
 	public void Interact()
 	{
-		if(_isPlaying) return;
+		if (_isPlaying) return;
 
 		_isPlaying = true;
 		StartCoroutine(TreeAnimation());

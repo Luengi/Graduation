@@ -20,10 +20,10 @@ public class PlayParticle : MonoBehaviour
 
     public void ToggleOff()
     {
-        if(_particleSystem.isPlaying) _particleSystem.Stop();
+        if (_particleSystem.isPlaying) _particleSystem.Stop();
     }
 
-    internal ParticleSystem InstantiateParticleSystem(ParticleSystem instatiateSystem, ParticleSystem particleSystemToInstantiate, Transform parent)
+    internal ParticleSystem InstantiateParticleSystem (ParticleSystem instatiateSystem, ParticleSystem particleSystemToInstantiate, Transform parent)
     {
         if (instatiateSystem == null)
         {

@@ -12,15 +12,18 @@ public class BurbbleStormEvent : PlotEvent
             Debug.LogError("Missing tornado game object reference");
     }
 
-	private void Start() {
+	private void Start() 
+    {
 		SubscribeToEvents();
 	}
     
-    private void Update() {
+    private void Update() 
+    {
         _cooldown.DecreaseCooldown(Time.deltaTime);
     }
     
-    internal void SetUpPassiveEvent() {
+    internal void SetUpPassiveEvent() 
+    {
         _state = EventState.InitialWaiting;
     }
     
@@ -53,17 +56,14 @@ public class BurbbleStormEvent : PlotEvent
         base.HandleDoneStatus();
     }
 
-    internal UpdatePassiveEventCollection SetupStartEventMetadata(Transform hideSpot)
+    internal UpdatePassiveEventCollection SetupStartEventMetadata (Transform hideSpot)
     {
         return new UpdatePassiveEventCollection
         {
             PreviousEvent = PassiveEventManager.Instance.CurrentEventPlaying,
             CurrentEvent = PassiveEvent.BurbbleStorm,
             State = BeeState.SuckInStorm,
-            Metadata = new EventMetadata
-            {
-                Target = hideSpot
-            }
+            Metadata = new EventMetadata{Target = hideSpot}
         };
     }
     
@@ -102,8 +102,8 @@ public class BurbbleStormEvent : PlotEvent
 
 	private void DisableEvent()
 	{
-		if(_cooldown!=null) _cooldown.StopCooldown();
-        if(_tornado!=null) _tornado.gameObject.SetActive(false);
+		if (_cooldown!=null) _cooldown.StopCooldown();
+        if (_tornado!=null) _tornado.gameObject.SetActive(false);
 		FireEndEvent(SetupForceEndEventMetadata());
 	}
 

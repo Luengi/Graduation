@@ -2,9 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[
-	RequireComponent(typeof(AudioSource))
-]
+[RequireComponent(typeof(AudioSource))]
 public class House : MonoBehaviour, IInspectable
 {
 	[SerializeField] private AudioSource _audioSource;
@@ -12,7 +10,7 @@ public class House : MonoBehaviour, IInspectable
 	
 	private Coroutine _inspectCoroutine;
 
-	public GameObject InspectablePoint { get => _inspectablePoint; }
+	public GameObject InspectablePoint {get => _inspectablePoint;}
 
 	public event Action OnInspected;
 
@@ -21,7 +19,8 @@ public class House : MonoBehaviour, IInspectable
 		_inspectCoroutine = StartCoroutine(InspectHouse());
 	}
 
-	private IEnumerator InspectHouse() {
+	private IEnumerator InspectHouse() 
+	{
 		_audioSource.Play();
 		yield return new WaitForSeconds(_audioSource.clip.length);
 
@@ -30,7 +29,8 @@ public class House : MonoBehaviour, IInspectable
 
 	public void StopInspecting()
 	{
-		if (_inspectCoroutine != null) {
+		if (_inspectCoroutine != null) 
+		{
 			StopCoroutine(_inspectCoroutine);
 		}
 	}

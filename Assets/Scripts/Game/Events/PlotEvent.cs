@@ -5,20 +5,19 @@ public abstract class PlotEvent : MonoBehaviour, IEvent
 {
     [SerializeField] internal protected PlotEventConfig _config;
 	internal protected EventState _state;
-
-	public EventState State { get => _state; set => _state = value; }
-
+	public EventState State {get => _state; set => _state = value;}
 	public static event Action<UpdatePassiveEventCollection> OnPassiveEventStart;
 	public static event Action<UpdatePassiveEventCollection> OnPasiveEventEnd;
 	public event Action OnEventDone;
 
-	public virtual void StartEvent() {
+	public virtual void StartEvent() 
+	{
 		_state = _state == EventState.InitialReady ? EventState.InitialActive : EventState.Active;
 	}
 	
 	internal protected virtual void UpdateEventStatus()
 	{
-		switch(_state)
+		switch (_state)
 		{
 			case EventState.InitialWaiting:
 				_state = EventState.InitialReady;
@@ -35,11 +34,13 @@ public abstract class PlotEvent : MonoBehaviour, IEvent
 		}
 	}
 	
-	internal protected virtual void HandleWaitingStatus() {		
+	internal protected virtual void HandleWaitingStatus() 
+	{		
 		_state = EventState.Waiting;
 	}
 
-	internal protected virtual void HandleDoneStatus() {
+	internal protected virtual void HandleDoneStatus() 
+	{
 		UpdatePassiveEventCollection eventMetadata = SetupEndEventMetadata();
 		FireEndEvent(eventMetadata);
 	}
@@ -48,33 +49,33 @@ public abstract class PlotEvent : MonoBehaviour, IEvent
 	
 	protected abstract void HandlePlotActivated();
 
-	protected virtual void SubscribeToEvents() {
+	protected virtual void SubscribeToEvents() 
+	{
 		BeeMovement.OnBeeEnteredPlot += HandlePlotActivated;
 	}
 
-	protected virtual void UnsubscribeFromEvents() {
+	protected virtual void UnsubscribeFromEvents() 
+	{
 		BeeMovement.OnBeeEnteredPlot -= HandlePlotActivated;
 	}
 
-	protected virtual UpdatePassiveEventCollection SetupEndEventMetadata() {
-		return new UpdatePassiveEventCollection{
-			PreviousEvent = PassiveEventManager.Instance.CurrentEventPlaying,
-		};
+	protected virtual UpdatePassiveEventCollection SetupEndEventMetadata() 
+	{
+		return new UpdatePassiveEventCollection{PreviousEvent = PassiveEventManager.Instance.CurrentEventPlaying, };
 	}
 
-	protected virtual UpdatePassiveEventCollection SetupForceEndEventMetadata() {
-		return new UpdatePassiveEventCollection{
-			PreviousEvent = PassiveEvent.None,
-			CurrentEvent = PassiveEvent.None,
-			State = BeeState.FollowingCamera,
-		};
+	protected virtual UpdatePassiveEventCollection SetupForceEndEventMetadata() 
+	{
+		return new UpdatePassiveEventCollection{PreviousEvent = PassiveEvent.None, CurrentEvent = PassiveEvent.None, State = BeeState.FollowingCamera, };
 	}
 
-	internal protected void FireStartEvent(UpdatePassiveEventCollection eventMetadata) {
+	internal protected void FireStartEvent (UpdatePassiveEventCollection eventMetadata) 
+	{
 		OnPassiveEventStart?.Invoke(eventMetadata);
 	}
 
-	internal protected void FireEndEvent(UpdatePassiveEventCollection eventMetadata) {
+	internal protected void FireEndEvent (UpdatePassiveEventCollection eventMetadata) 
+	{
 		OnPasiveEventEnd?.Invoke(eventMetadata);
 		OnEventDone?.Invoke();
 	}

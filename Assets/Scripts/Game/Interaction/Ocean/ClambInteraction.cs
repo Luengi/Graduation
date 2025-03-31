@@ -2,15 +2,8 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[
-	RequireComponent(typeof(PlayAnimation)),
-	RequireComponent(typeof(PlayParticle)),
-	RequireComponent(typeof(SoundComponent)),
-]
-public class ClambInteraction : MonoBehaviour, 
-								IInteractable, 
-								IEvent,
-								IToggleComponent
+[RequireComponent(typeof(PlayAnimation)), RequireComponent(typeof(PlayParticle)), RequireComponent(typeof(SoundComponent)), ]
+public class ClambInteraction : MonoBehaviour, IInteractable, IEvent, IToggleComponent
 {
 	private const string INITIAL_ANIMATION_PARAMETER_NAME = "HasStarted";
 	private const string OPEN_ANIMATION_STATE = "clam_open_Animation";
@@ -18,16 +11,16 @@ public class ClambInteraction : MonoBehaviour,
 
 	[SerializeField] private string _clamAnimationToggleParameterName;
 	[SerializeField] private float _scaleIncreaseRate = 1.5f;
-		[SerializeField] private Sound _tapSFX;
+	[SerializeField] private Sound _tapSFX;
 	[SerializeField] private Sound _onceClamOpenSFX;
 	[SerializeField] private Sound _onceClamCloseSFX;
 	[SerializeField] private Sound _oncePearlSparkOnOpenSFX;
 
-	public bool CanInterrupt { get; set; }
-	public bool MultipleInteractions { get; set; }
-	public EventState State { get; set; }
-	public ToggleState CurrentToggleState { get; set; }
-	public ToggleState NextToggleState { get; set; }
+	public bool CanInterrupt {get; set;}
+	public bool MultipleInteractions {get; set;}
+	public EventState State {get; set;}
+	public ToggleState CurrentToggleState {get; set;}
+	public ToggleState NextToggleState {get; set;}
 
 	internal PlayAnimation _playAnimation;
 	internal PlayParticle _playParticle;
@@ -64,12 +57,13 @@ public class ClambInteraction : MonoBehaviour,
 
 	public void Interact()
 	{
-		if(!_hasStartedAnimation) {
+		if (!_hasStartedAnimation) 
+		{
 			_hasStartedAnimation = true;
 			_playAnimation.SetBoolParameter(INITIAL_ANIMATION_PARAMETER_NAME, true);
 		}
 		
-		if(CurrentToggleState == ToggleState.Switching) return;
+		if (CurrentToggleState == ToggleState.Switching) return;
 
 		Toggle();
 	}
@@ -84,7 +78,8 @@ public class ClambInteraction : MonoBehaviour,
 		StartCoroutine(CloseClam());
 	}
 
-	private IEnumerator OpenClam() {
+	private IEnumerator OpenClam() 
+	{
 		UpdateColliderScale(_scaleIncreaseRate);
 		_soundComponent.PlaySound(_tapSFX);
 		_soundComponent.PlaySound(_onceClamOpenSFX);
@@ -118,13 +113,13 @@ public class ClambInteraction : MonoBehaviour,
 		OnToggleDone?.Invoke();
 	}
 
-	private IEnumerator WaitForAnimationStateToPlay(string state)
+	private IEnumerator WaitForAnimationStateToPlay (string state)
 	{
 		yield return StartCoroutine(_playAnimation.WaitForAnimationToStart(state));
 		yield return StartCoroutine(_playAnimation.WaitForAnimationToEnd());
 	}
 
-	private void UpdateState(ToggleState state)
+	private void UpdateState (ToggleState state)
 	{
 		CurrentToggleState = state;
 	}
@@ -149,9 +144,9 @@ public class ClambInteraction : MonoBehaviour,
 		StopAllCoroutines();
 	}
 
-	private void UpdateColliderScale(float increaseRate)
+	private void UpdateColliderScale (float increaseRate)
 	{
-		if(_collider == null) return;
+		if (_collider == null) return;
 		_collider.center += new Vector3(0, increaseRate/2, 0);
 		_collider.size += new Vector3(0, increaseRate, 0);
 	}

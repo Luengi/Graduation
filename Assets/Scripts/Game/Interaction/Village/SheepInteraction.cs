@@ -2,12 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[
-	RequireComponent(typeof(BoxCollider)),
-	RequireComponent(typeof(SoundComponent)),
-	RequireComponent(typeof(PlayParticle)),
-	RequireComponent(typeof(UpdateMaterial))
-]
+[RequireComponent(typeof(BoxCollider)), RequireComponent(typeof(SoundComponent)), RequireComponent(typeof(PlayParticle)), RequireComponent(typeof(UpdateMaterial))]
 public class SheepInteraction : MonoBehaviour, IInteractable, IEvent, IInterruptible
 {
 	[SerializeField] private ObjectMovement _beeMovement;
@@ -32,18 +27,18 @@ public class SheepInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupt
 	private Coroutine _petSheepCoroutine;
 	private PlayParticle _playParticle;
 
-	public bool CanInterrupt { get; set; }
-	public bool MultipleInteractions { get; set; }
-	public EventState State { get; set; }
+	public bool CanInterrupt {get; set;}
+	public bool MultipleInteractions {get; set;}
+	public EventState State {get; set;}
 
 	public event Action<IInterruptible> OnInterruptedDone;
 	public event Action OnEventDone;
 
 	private void Awake()
 	{
-		if(_beeAnimation == null) Debug.LogError("Bee Animator is required by Sheep Interaction to work correctly");
+		if (_beeAnimation == null) Debug.LogError("Bee Animator is required by Sheep Interaction to work correctly");
 
-		if(_updateMaterial == null) _updateMaterial = GetComponent<UpdateMaterial>();
+		if (_updateMaterial == null) _updateMaterial = GetComponent<UpdateMaterial>();
 		
 		_soundComponent = GetComponent<SoundComponent>();
 		_playParticle = GetComponent<PlayParticle>();
@@ -57,13 +52,14 @@ public class SheepInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupt
 
 	public void Interact()
 	{
-		if(_petSheepCoroutine != null) return;
+		if (_petSheepCoroutine != null) return;
 
 		_soundComponent.PlaySound(_onceSheepBeehSFX);
 		_petSheepCoroutine = StartCoroutine(PetSheep());
 	}
 
-	private IEnumerator PetSheep() {
+	private IEnumerator PetSheep() 
+	{
 		Bee.Instance.UpdateState(BeeState.PettingSheep);
 
 		yield return MoveBeeToSheep();
@@ -76,7 +72,8 @@ public class SheepInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupt
 		OnEventDone?.Invoke();
 	}
 
-	private IEnumerator SheepReaction() {
+	private IEnumerator SheepReaction() 
+	{
 		// update material here
 		_updateMaterial.UpdateMaterialByName(_happySheepMaterialName);
 		_playParticle.ToggleOn();
@@ -85,13 +82,15 @@ public class SheepInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupt
 		_updateMaterial.UpdateMaterialByName(_normalSheepMaterialName);
 	}
 
-	private IEnumerator MoveBeeToSheep() {
+	private IEnumerator MoveBeeToSheep() 
+	{
 		yield return _beeMovement.MoveUntilObjectReached(transform.position + _beePettingPositionOffset, .75f);
 		yield return _beeMovement.RotateUntilLookAt(transform.position, .1f);
 		_soundComponent.PlaySound(_onceBeeGiggleSFX);
 	}
 
-	private IEnumerator PetSheepAnimation() {
+	private IEnumerator PetSheepAnimation() 
+	{
 		_beeAnimation.SetBoolParameter(_pettingAnimationParameterName, false);
 		yield return _beeAnimation.WaitForAnimationToStart(_pettingAnimationStateName);
 		yield return _beeAnimation.WaitForAnimationToEnd();
@@ -110,8 +109,10 @@ public class SheepInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupt
 		StopPettingSheep();
 	}
 
-	private void StopPettingSheep() {
-		if(_petSheepCoroutine != null) {
+	private void StopPettingSheep() 
+	{
+		if (_petSheepCoroutine != null) 
+		{
 			StopCoroutine(_petSheepCoroutine);
 			_petSheepCoroutine = null;
 		}

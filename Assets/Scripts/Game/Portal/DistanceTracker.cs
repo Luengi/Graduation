@@ -14,7 +14,8 @@ public class DistanceTracker : MonoBehaviour
 		CheckDistance();
     }
 
-	private void HandleMaxDistanceReached() {
+	private void HandleMaxDistanceReached() 
+	{
 		OnMaxDistanceReached?.Invoke();
 	}
 
@@ -34,15 +35,15 @@ public class DistanceTracker : MonoBehaviour
 
 	private bool IsPlotActive() => PlotsManager.Instance.CurrentPlot != Plot.None;
 
-	public void UpdateObjects(Transform object1, Transform object2)
+	public void UpdateObjects (Transform object1, Transform object2)
 	{
 		_object1 = object1;
 		_object2 = object2;
 	}
 
-	public bool OverMaxDistance(Transform object1, Transform object2) => Vector3.Distance(object1.position, object2.position) > _maxDistance;
+	public bool OverMaxDistance (Transform object1, Transform object2) => Vector3.Distance(object1.position, object2.position) > _maxDistance;
 
-	public void UpdateMaxDistance(float maxDistance)
+	public void UpdateMaxDistance (float maxDistance)
 	{
 		_maxDistance = maxDistance;
 	}

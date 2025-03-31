@@ -5,9 +5,9 @@ public class ImageTrackingSyncWithImageResponse : MonoBehaviour, IImageTrackingR
 {
 	public ImageTrackingResponses ResponseType => ImageTrackingResponses.SyncObjectWithImage;
 
-	public GameObject Respond(GameObject objectToSync, ARTrackedImage trackedImage)
+	public GameObject Respond (GameObject objectToSync, ARTrackedImage trackedImage)
 	{
-		// if(objectToSync.transform.parent != trackedImage.transform) objectToSync.transform.SetParent(trackedImage.transform);
+		// if (objectToSync.transform.parent != trackedImage.transform) objectToSync.transform.SetParent(trackedImage.transform);
 		
 		// objectToSync.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 		objectToSync.transform.SetPositionAndRotation(trackedImage.transform.position, trackedImage.transform.rotation);

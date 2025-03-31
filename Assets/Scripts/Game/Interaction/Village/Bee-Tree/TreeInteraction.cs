@@ -5,11 +5,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-[
-	RequireComponent(typeof(PlayAnimation)),
-	RequireComponent(typeof(SoundComponent)),
-	RequireComponent(typeof(BoxCollider)),
-]
+[RequireComponent(typeof(PlayAnimation)), RequireComponent(typeof(SoundComponent)), RequireComponent(typeof(BoxCollider)), ]
 public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterruptible
 {
 	private const string LOOK_DOWN_ANIMATION_PARAMETER = "IsLookingDown";
@@ -35,12 +31,12 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	private int _lastSelectedConeIndex;
 	private List<ACorn> _aCorns = new List<ACorn>();
 	private List<ACorn> _aCornsOnGround = new List<ACorn>();
-	public bool CanInterrupt { get; set; }
-	public bool MultipleInteractions { get; set; }
+	public bool CanInterrupt {get; set;}
+	public bool MultipleInteractions {get; set;}
 	
 	public event Action OnEventDone;
 	public event Action<IInterruptible> OnInterruptedDone;
-	public EventState State { get; set; }
+	public EventState State {get; set;}
 	
 	private SoundComponent _soundComponent;
 	
@@ -90,7 +86,7 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
 		
 	}
 
-	private IEnumerator ShakeTree(ACorn aCorn)
+	private IEnumerator ShakeTree (ACorn aCorn)
 	{
 		_ready = false;
 		
@@ -108,25 +104,25 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
 
 		if (_aCornsOnGround.Count < 1)
 		{
-			if(Bee.Instance.State == BeeState.InspectTree) ReleaseBee();
+			if (Bee.Instance.State == BeeState.InspectTree) ReleaseBee();
 		}
 	}
 
-	private IEnumerator FadeAndResetCone(ACorn aCorn)
+	private IEnumerator FadeAndResetCone (ACorn aCorn)
 	{
 		yield return aCorn.FadeCone(_resetTime / 2);
 		aCorn.ResetCone(GetRandomPointInBox());
 		_aCornsOnGround.Remove(aCorn);
 	}
 
-	private IEnumerator DropTheCone(ACorn aCorn)
+	private IEnumerator DropTheCone (ACorn aCorn)
 	{
 		aCorn.DropCone();
 
 		yield return new WaitForSeconds(_resetTime / 2);
 	}
 
-	private IEnumerator RepareConeAndPlayAnimation(ACorn aCorn)
+	private IEnumerator RepareConeAndPlayAnimation (ACorn aCorn)
 	{
 		_playAnimation.SetTrigger(_animationTriggerVariable);
 
@@ -160,7 +156,7 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
 		Bee.Instance.UpdateState(BeeState.Idle);
 	}
 	
-	private IEnumerator WaitForAnimationStateToPlay(string state)
+	private IEnumerator WaitForAnimationStateToPlay (string state)
 	{
 		yield return StartCoroutine(_playAnimation.WaitForAnimationToStart(state));
 		yield return StartCoroutine(_playAnimation.WaitForAnimationToEnd());
@@ -188,7 +184,7 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
 		return randomPosition;
 	}
 
-	private ACorn GetRandomCone(List<ACorn> list)
+	private ACorn GetRandomCone (List<ACorn> list)
 	{
 		if (list == null || list.Count == 0)
 		{

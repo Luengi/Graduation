@@ -21,7 +21,8 @@ public class SheepJump : PlotEvent, IInterruptible
 			LoadSheep();
 	}
 	
-	private void Start() {
+	private void Start() 
+	{
 		SubscribeToEvents();
 	}
 
@@ -29,7 +30,7 @@ public class SheepJump : PlotEvent, IInterruptible
 	{
 		foreach (Transform sheep in _sheepHolder)
 		{
-			if(sheep.GetComponent<Sheep>()) _sheeps.Add(sheep.GetComponent<Sheep>());
+			if (sheep.GetComponent<Sheep>()) _sheeps.Add(sheep.GetComponent<Sheep>());
 		}
 	}
 	
@@ -51,7 +52,7 @@ public class SheepJump : PlotEvent, IInterruptible
 		base.UpdateEventStatus();
 	}
 	
-	internal Sheep GetRandomSheep(List<Sheep> sheep, int randomIndex) => sheep[randomIndex];
+	internal Sheep GetRandomSheep (List<Sheep> sheep, int randomIndex) => sheep[randomIndex];
 	
 	internal UpdatePassiveEventCollection SetupStartEventMetadata(Transform sheep)
 	{
@@ -74,7 +75,8 @@ public class SheepJump : PlotEvent, IInterruptible
 	
 	public override bool CanPlay() => _sheeps.Count > 0;
 	
-	internal void SetUpPassiveEvent() {
+	internal void SetUpPassiveEvent() 
+	{
 		_state = EventState.InitialWaiting;
 	}
 	

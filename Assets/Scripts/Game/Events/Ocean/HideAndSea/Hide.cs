@@ -11,12 +11,12 @@ public class Hide : MonoBehaviour
     
 	public static event Action OnHidden;
 
-    void Start()
+    private void Start()
     {
 		SubscribeToEvents();
     }
 
-	void FixedUpdate()
+	private void FixedUpdate()
 	{
 		if (CannotHide()) return;
 
@@ -27,42 +27,49 @@ public class Hide : MonoBehaviour
 
 	private bool CannotHide() => _hideSpot == null || !_isMovingToHidingSpot;
 
-	private void HandleHideStart(UpdatePassiveEventCollection eventMetadata) {
-		if(eventMetadata.CurrentEvent != PassiveEvent.HideAndSea) return;
+	private void HandleHideStart(UpdatePassiveEventCollection eventMetadata) 
+	{
+		if (eventMetadata.CurrentEvent != PassiveEvent.HideAndSea) return;
 
 		_hideSpot = eventMetadata.Metadata.Target;
 		_isMovingToHidingSpot = true;
 	}
 
-	private void HandleHideEnd(UpdatePassiveEventCollection eventMetadata) {
-		if(eventMetadata.PreviousEvent != PassiveEvent.HideAndSea) return;
+	private void HandleHideEnd(UpdatePassiveEventCollection eventMetadata) 
+	{
+		if (eventMetadata.PreviousEvent != PassiveEvent.HideAndSea) return;
 
 		_hideSpot = null;
 	}
 
-	private void MoveTowardsHidingSpot() {
+	private void MoveTowardsHidingSpot() 
+	{
 		_movement.MoveTo(_hideSpot.position + _hideOffset, _movementConfig.MovementSpeed);
 		// transform.position = Vector3.Lerp(transform.position, _hideSpot.position + _hideOffset, _movementConfig.MovementSpeed * Time.deltaTime);
 	}
 
 	private bool IsHidden() => Vector3.Distance(transform.position, _hideSpot.position + _hideOffset) < 0.1f;
 
-	private void HideGameObject() {
+	private void HideGameObject() 
+	{
 		_isMovingToHidingSpot = false;
 		OnHidden?.Invoke();
 	}
 
-	private void SubscribeToEvents() {
+	private void SubscribeToEvents() 
+	{
 		PlotEvent.OnPassiveEventStart += HandleHideStart;
 		PlotEvent.OnPasiveEventEnd += HandleHideEnd;
 	}
 
-	private void UnsubscribeFromEvents() {
+	private void UnsubscribeFromEvents() 
+	{
 		PlotEvent.OnPassiveEventStart -= HandleHideStart;
 		PlotEvent.OnPasiveEventEnd -= HandleHideEnd;
 	}
 
-	private void OnDestroy() {
+	private void OnDestroy() 
+	{
 		UnsubscribeFromEvents();
 	}
 }

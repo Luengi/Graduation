@@ -1,4 +1,5 @@
-public enum EventType {
+public enum EventType 
+{
 	None,
 	Passive,
 	Active

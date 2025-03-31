@@ -31,7 +31,7 @@ public class Tornado : MonoBehaviour
     private GameObject _bee;
     private float _tornadoStrength;
     
-    public float PullStrengthIncreaseDuration { get; set; }
+    public float PullStrengthIncreaseDuration {get; set;}
 
     [SerializeField] private GameObject _caughtObjectsHolder;
 
@@ -48,7 +48,8 @@ public class Tornado : MonoBehaviour
 
     public float lift => _lift;
 
-	void Awake() {
+	private void Awake() 
+    {
         SetUp();
 	}
 
@@ -87,10 +88,9 @@ public class Tornado : MonoBehaviour
             _caughtObjects.Add(_bee.GetComponent<CaughtObject>());
     }
 
-    void Update()
+    private void Update()
     {
-        
-        //try pull object in the center if it exceed maxdistance
+        // try pull object in the center if it exceed maxdistance
         ApplyForce();
     }
     
@@ -122,8 +122,7 @@ public class Tornado : MonoBehaviour
         
         InitCaughtObjects();
 
-        StartCoroutine(IncreaseTilThreshold(_minTornadoStrength, _maxTornadoStrength,
-            PullStrengthIncreaseDuration, UpdateTornadoStrength));
+        StartCoroutine(IncreaseTilThreshold(_minTornadoStrength, _maxTornadoStrength, PullStrengthIncreaseDuration, UpdateTornadoStrength));
     }
 
     private void InitCaughtObjects()
@@ -136,7 +135,7 @@ public class Tornado : MonoBehaviour
 
     private void OnDisable()
     {
-        if(_caughtObjects == null || _caughtObjects.Count<=0) return;
+        if (_caughtObjects == null || _caughtObjects.Count<=0) return;
 
         ReleaseCaughtObjects();
 
@@ -151,8 +150,7 @@ public class Tornado : MonoBehaviour
         }
     }
 
-    private IEnumerator IncreaseTilThreshold(float startValue, float threshold, float duration,
-        Action<float>updateValue)
+    private IEnumerator IncreaseTilThreshold (float startValue, float threshold, float duration, Action<float>updateValue)
     {
         float elapseTime = 0f;
         float currentValue = startValue;
@@ -170,8 +168,7 @@ public class Tornado : MonoBehaviour
         StartCoroutine(DecreaseTilThreshold(threshold, startValue, duration, UpdateTornadoStrength));
     }
     
-    private IEnumerator DecreaseTilThreshold(float startValue, float threshold, float duration,
-        Action<float>updateValue)
+    private IEnumerator DecreaseTilThreshold(float startValue, float threshold, float duration, Action<float>updateValue)
     {
         float elapseTime = 0f;
         float currentValue = startValue;

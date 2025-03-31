@@ -17,11 +17,12 @@ public class BeeVisit : PlotEvent, IEvent, IInterruptible
 
 	public event Action<IInterruptible> OnInterruptedDone;
 
-	void Awake()
+	private void Awake()
 	{
 		_beePlayAnimation = _beeMovement.gameObject.GetComponent<PlayAnimation>();
-		foreach (GameObject inspectable in _inspectables) {
-			if(inspectable == null) continue;
+		foreach (GameObject inspectable in _inspectables) 
+		{
+			if (inspectable == null) continue;
 
 			_inspectablesInterfaces.Add(inspectable.GetComponent<IInspectable>());
 		}
@@ -36,8 +37,10 @@ public class BeeVisit : PlotEvent, IEvent, IInterruptible
 		StartCoroutine(VisitPlaces());
 	}
 
-	private IEnumerator VisitPlaces() {
-		foreach (IInspectable inspectable in _inspectablesInterfaces) {
+	private IEnumerator VisitPlaces() 
+	{
+		foreach (IInspectable inspectable in _inspectablesInterfaces) 
+		{
 			yield return StartCoroutine(_beeMovement.MoveUntilObjectReached(inspectable.InspectablePoint.transform.position, 1f));
 			InspectPlace(inspectable);
 
@@ -51,13 +54,16 @@ public class BeeVisit : PlotEvent, IEvent, IInterruptible
 		FireEndEvent(SetupEndEventMetadata());
 	}
 
-	private IEnumerator WaitForInspection() {
-		while (_inspecting) {
+	private IEnumerator WaitForInspection() 
+	{
+		while (_inspecting) 
+		{
 			yield return null;
 		}
 	}
 
-	private void InspectPlace(IInspectable inspectable) {
+	private void InspectPlace (IInspectable inspectable) 
+	{
 		_beePlayAnimation.SetTrigger(KNOCKING_ANIMATION_PARAMETER);
 		inspectable.OnInspected += HandleInspectableInspected;
 		inspectable.Inspect();
@@ -86,7 +92,8 @@ public class BeeVisit : PlotEvent, IEvent, IInterruptible
 	{
 		StopAllCoroutines();
 
-		if(_currentSubscribedInspectable != null) {
+		if (_currentSubscribedInspectable != null) 
+		{
 			_currentSubscribedInspectable.StopInspecting();
 			_currentSubscribedInspectable.OnInspected -= HandleInspectableInspected;
 		}
@@ -95,7 +102,8 @@ public class BeeVisit : PlotEvent, IEvent, IInterruptible
 		OnInterruptedDone?.Invoke(this);
 	}
 
-	internal void SetUpPassiveEvent() {
+	internal void SetUpPassiveEvent() 
+	{
 		_state = EventState.InitialWaiting;
 	}
 

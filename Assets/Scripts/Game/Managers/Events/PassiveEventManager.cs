@@ -18,7 +18,8 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 
 	public event Action<EventInterruption> OnPassiveEventReadyToStart;
 
-	private void Start() {
+	private void Start() 
+	{
 		Setup();
 		SubscribeToEvents();
 	}
@@ -26,24 +27,28 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 // Update this to when the bee reaches into the plot
 	void Update()
     {
-		if(PlotsManager.Instance.CurrentPlot == Plot.None) return;
+		if (PlotsManager.Instance.CurrentPlot == Plot.None) return;
 
-		if(EventManager.Instance.PlayingEvent) {
+		if (EventManager.Instance.PlayingEvent) 
+		{
 			StopLookingForEvent();
 			return;
 		} 
 		
-		if(_findPassiveEvent == null){
+		if (_findPassiveEvent == null)
+		{
 			_findPassiveEvent = StartCoroutine(FindPassiveEvent());
 		} 
     }
 
-	private IEnumerator FindPassiveEvent() {
+	private IEnumerator FindPassiveEvent() 
+	{
 		yield return new WaitForSeconds(_delayedEventStartDuration);
 
 		PlotEvent plotEvent = GetRandomPlotEventToPlay();
 
-		if(plotEvent == null) {
+		if (plotEvent == null) 
+		{
 			StopLookingForEvent();
 			yield break;
 		}
@@ -52,10 +57,11 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 		_findPassiveEvent = null;
 	}
 
-	private PlotEvent GetRandomPlotEventToPlay() {
+	private PlotEvent GetRandomPlotEventToPlay() 
+	{
 		List<PlotEvent> playableEvents = GetPlayablePlotEvents(GetPlotEventsFromCurrentPlot());
 
-		if(playableEvents.Count < 1) return null;
+		if (playableEvents.Count < 1) return null;
 
 		PlotEvent eventToPlay = playableEvents[UnityEngine.Random.Range(0, playableEvents.Count)];
 		_playedEvents.Add(eventToPlay);
@@ -63,7 +69,8 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 		return eventToPlay;
 	}
 
-	private List<PlotEvent> GetPlayablePlotEvents(List<PlotEvent> plotEvents) {
+	private List<PlotEvent> GetPlayablePlotEvents (List<PlotEvent> plotEvents) 
+	{
 		CheckIfAllEventsPlayed(plotEvents);
 
 		List<PlotEvent> playableEvents = plotEvents.FindAll(plotEvent => plotEvent.CanPlay());
@@ -72,12 +79,14 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 		return playableEventsNotPlayed.Count > 0 ? playableEventsNotPlayed : playableEvents;
 	}
 
-	private void CheckIfAllEventsPlayed(List<PlotEvent> plotEvents) {
-		if(_playedEvents.Count == plotEvents.Count)	_playedEvents.Clear();
+	private void CheckIfAllEventsPlayed(List<PlotEvent> plotEvents) 
+	{
+		if (_playedEvents.Count == plotEvents.Count) _playedEvents.Clear();
 	}
 
-	private List<PlotEvent> GetPlotEventsFromCurrentPlot() {
-		foreach(PlotEventsCollection plotEventsCollection in _plotEventsCollections)
+	private List<PlotEvent> GetPlotEventsFromCurrentPlot() 
+	{
+		foreach (PlotEventsCollection plotEventsCollection in _plotEventsCollections)
 		{
 			if (!IsEventOfCurrentPlot(PlotsManager.Instance.CurrentPlot, plotEventsCollection.Plot)) continue;
 			return plotEventsCollection.PlotEvents;
@@ -86,24 +95,27 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 		return null;
 	}
 	
-	internal bool IsEventOfCurrentPlot(Plot currentEnvironmentPlot, Plot eventsPlot) => currentEnvironmentPlot == eventsPlot;
+	internal bool IsEventOfCurrentPlot (Plot currentEnvironmentPlot, Plot eventsPlot) => currentEnvironmentPlot == eventsPlot;
 
-	private void InformEventReadyToPlay(PlotEvent plotEvent) {
+	private void InformEventReadyToPlay (PlotEvent plotEvent) 
+	{
 		EventInterruption eventInterruption = new EventInterruption(plotEvent.gameObject, EventType.Passive);
 		OnPassiveEventReadyToStart?.Invoke(eventInterruption);
 	}
 
-	private void Setup() {
+	private void Setup() 
+	{
 		_currentEventPlaying = PassiveEvent.None;
 	}
 
-	private void SubscribeToEvents() {
+	private void SubscribeToEvents() 
+	{
 		PlotEvent.OnPassiveEventStart += HandlePassiveEventStateChanged;
 		PlotEvent.OnPasiveEventEnd += HandlePassiveEventStateChanged;
 		ImageTrackingPlotUpdatedResponse.OnPlotNeedsDeactivation += HandlePlotDeactivated;
 	}
 
-	private void HandlePlotDeactivated(Plot plot)
+	private void HandlePlotDeactivated (Plot plot)
 	{
 		_currentEventPlaying = PassiveEvent.None;
 		StopLookingForEvent();
@@ -118,23 +130,26 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 		}
 	}
 
-	private void HandlePassiveEventStateChanged(UpdatePassiveEventCollection eventChangeArgs)
+	private void HandlePassiveEventStateChanged (UpdatePassiveEventCollection eventChangeArgs)
 	{
 		HandleEventChange(eventChangeArgs.CurrentEvent);
 	}
 
-	internal void HandleEventChange(PassiveEvent newEvent) {
+	internal void HandleEventChange (PassiveEvent newEvent) 
+	{
 		_previousEventPlayed = _currentEventPlaying;
 		_currentEventPlaying = newEvent;
 	}
 
-	private void UnsubscribeFromEvents() {
+	private void UnsubscribeFromEvents() 
+	{
 		PlotEvent.OnPassiveEventStart -= HandlePassiveEventStateChanged;
 		PlotEvent.OnPasiveEventEnd -= HandlePassiveEventStateChanged;
 		ImageTrackingPlotUpdatedResponse.OnPlotNeedsDeactivation -= HandlePlotDeactivated;
 	}
 
-	private void OnDestroy() {
+	private void OnDestroy() 
+	{
 		UnsubscribeFromEvents();
 	}
 }

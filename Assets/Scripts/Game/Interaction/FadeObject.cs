@@ -2,9 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[
-    RequireComponent(typeof(Renderer)),
-]
+
+[RequireComponent(typeof(Renderer)), ]
 public class FadeObject : MonoBehaviour
 {
     private Renderer _renderer;
@@ -18,7 +17,7 @@ public class FadeObject : MonoBehaviour
         _originalColor = _material.color;
     }
 
-    public IEnumerator Fade(float fadeSpeed)
+    public IEnumerator Fade (float fadeSpeed)
     {
         Color initialColor = _material.color;
         float elapsedTime = 0f;

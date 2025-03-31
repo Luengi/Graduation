@@ -7,9 +7,8 @@ public class CaughtObject : MonoBehaviour
     private Tornado _tornadoReference;
     private SpringJoint _spring;
     
-    public Rigidbody rigid { get; set; }
-
-    public bool allowUpdate{ get; set; }
+    public Rigidbody rigid {get; set;}
+    public bool allowUpdate{get; set;}
 
     private void Awake()
     {
@@ -22,15 +21,14 @@ public class CaughtObject : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
     }
     
-    void Update()
+    private void Update()
     {
         SetSpringStrength();
         Rotate();
         
-        if(!allowUpdate) return;
+        if (!allowUpdate) return;
         
-        if(_tornadoReference.allowConstrain) LockZ();
-        
+        if (_tornadoReference.allowConstrain) LockZ();
         
         //LiftObject();
         RotateObjectAroundTornado(_tornadoReference);
@@ -48,7 +46,7 @@ public class CaughtObject : MonoBehaviour
     
     private void LiftObject()
     {
-        if(_spring == null || _tornadoReference == null)return;
+        if (_spring == null || _tornadoReference == null) return;
         
         Vector3 newPosition = _spring.connectedAnchor;
         newPosition.y = transform.position.y;
@@ -60,9 +58,9 @@ public class CaughtObject : MonoBehaviour
         _spring.spring = _tornadoReference.tornadoStrength;
     }
 
-    private void RotateObjectAroundTornado(Tornado tornado)
+    private void RotateObjectAroundTornado (Tornado tornado)
     {
-        if(tornado == null) return;
+        if (tornado == null) return;
         
         // Calculate the vector pointing from the tornado's center to the object's current position
         Vector3 direction = transform.position - tornado.transform.position;
@@ -87,7 +85,7 @@ public class CaughtObject : MonoBehaviour
         rigid.AddForce(normal * tornado.rotationStrength, ForceMode.Force);
     }
     
-    public void Init(Tornado tornadoRef, Rigidbody tornadoRigidbody, float springForce)
+    public void Init (Tornado tornadoRef, Rigidbody tornadoRigidbody, float springForce)
     {
         enabled = true;
         allowUpdate = true;
@@ -97,7 +95,7 @@ public class CaughtObject : MonoBehaviour
         InitSpring(tornadoRigidbody, springForce);
     }
 
-    private void InitSpring(Rigidbody tornadoRigidbody, float springForce)
+    private void InitSpring (Rigidbody tornadoRigidbody, float springForce)
     {
         _spring = gameObject.AddComponent<SpringJoint>();
         _spring.spring = springForce;
@@ -105,14 +103,14 @@ public class CaughtObject : MonoBehaviour
         _spring.autoConfigureConnectedAnchor = false;
         
         Vector3 initialPosition = Vector3.zero;
-        //initialPosition.y = transform.position.y;
+        // initialPosition.y = transform.position.y;
         
         _spring.connectedAnchor = initialPosition;
     }
 
     public void Release()
     {
-        if(this==null) return;
+        if (this==null) return;
 
         rigid.constraints = RigidbodyConstraints.None;
         enabled = false;

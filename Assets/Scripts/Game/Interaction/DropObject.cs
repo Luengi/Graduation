@@ -1,9 +1,6 @@
 using UnityEngine;
 
-[
-    RequireComponent(typeof(Rigidbody)),
-    RequireComponent(typeof(SphereCollider)),
-]
+[RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(SphereCollider)), ]
 public class DropObject : MonoBehaviour
 {
     private Rigidbody _objectRigidbody;
@@ -32,12 +29,10 @@ public class DropObject : MonoBehaviour
         _objectRigidbody.isKinematic = false;
     }
 
-    public void ResetObject(Vector3 resetPosition)
+    public void ResetObject (Vector3 resetPosition)
     {
         _objectRigidbody.isKinematic = true;
         _collider.enabled = false;
         transform.position = resetPosition;
     }
-
-    
 }

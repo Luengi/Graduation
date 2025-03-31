@@ -2,11 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[
-	RequireComponent(typeof(PlayAnimation)),
-	RequireComponent(typeof(BoxCollider)),
-	RequireComponent(typeof(AudioSource)),
-]
+[RequireComponent(typeof(PlayAnimation)), RequireComponent(typeof(BoxCollider)), RequireComponent(typeof(AudioSource)), ]
 public class BoatInteraction : MonoBehaviour, IInteractable, IEvent
 {
 	[Tooltip("The name of the animation state that will be played when the boat is interacted with.")]
@@ -21,9 +17,9 @@ public class BoatInteraction : MonoBehaviour, IInteractable, IEvent
 
 	public event Action OnEventDone;
 
-	public bool CanInterrupt { get; set; }
-	public bool MultipleInteractions { get; set; }
-	public EventState State { get; set; }
+	public bool CanInterrupt {get; set;}
+	public bool MultipleInteractions {get; set;}
+	public EventState State {get; set;}
 
 	void Awake() 
 	{
@@ -44,7 +40,7 @@ public class BoatInteraction : MonoBehaviour, IInteractable, IEvent
 
 	public void Interact()
 	{
-		if(_boatInteractionCoroutine != null) return;
+		if (_boatInteractionCoroutine != null) return;
 
 		_boatInteractionCoroutine = StartCoroutine(BoatInteractionCoroutine());
 	}
@@ -77,14 +73,16 @@ public class BoatInteraction : MonoBehaviour, IInteractable, IEvent
 
 	public void StopEvent()	
 	{
-		if(_boatInteractionCoroutine != null){
+		if (_boatInteractionCoroutine != null)
+		{
 			StopCoroutine(_boatInteractionCoroutine);
 			DisableInteractedAnimation();
 			_boatInteractionCoroutine = null;
 		} 
 	}
 
-	private void OnDisable() {
+	private void OnDisable() 
+	{
 		StopEvent();
 	}
 }

@@ -14,16 +14,18 @@ public class ItemSwitcher : MonoBehaviour
 		PlotsManager.OnPlotDeactivated += HandlePlotsDeactivated;
     }
 
-	private void DeactivateWardrobeUI() {
+	private void DeactivateWardrobeUI() 
+    {
 		_wardrobeButton.SetActive(false);
 		_panel.SetActive(false);
 	}
 
-	private void ActivateWardrobeUI() {
+	private void ActivateWardrobeUI() 
+    {
 		_wardrobeButton.SetActive(true);
 	}
 
-    private void HandlePlotSwitch(Plot newPlot)
+    private void HandlePlotSwitch (Plot newPlot)
     {
 		DeactivateWardrobeUI();
 
@@ -35,29 +37,32 @@ public class ItemSwitcher : MonoBehaviour
         // DeactivateObjectsExcept(WardrobeItem.ItemType.goggles);
     }
 
-	private void HandlePlotsDeactivated(Plot plot) {
-		if(plot == Plot.Ocean) {
+	private void HandlePlotsDeactivated (Plot plot) 
+    {
+		if (plot == Plot.Ocean) 
+        {
 			GameObject goggles = FindItemOfType(WardrobeItem.ItemType.goggles);
-			if(goggles.activeSelf) goggles.SetActive(false);
+			if (goggles.activeSelf) goggles.SetActive(false);
 		}
 
 		ActivateWardrobeUI();
 	}
 
-	private void DeactivateObjectsOfType(WardrobeItem.ItemType type)
+	private void DeactivateObjectsOfType (WardrobeItem.ItemType type)
 	{
 		foreach (var item in items)
 		{
 			if (item.itemType != type) continue;
 			
-			if(item.gameObject.activeSelf) {
+			if (item.gameObject.activeSelf) 
+            {
 				item.gameObject.SetActive(false);
 				break;
 			}
 		}
 	}
 
-    private void DeactivateObjectsExcept(WardrobeItem.ItemType type)
+    private void DeactivateObjectsExcept (WardrobeItem.ItemType type)
     {
         foreach (var item in items)
         {
@@ -67,10 +72,10 @@ public class ItemSwitcher : MonoBehaviour
         }
     }
 
-    private GameObject FindItemOfType(WardrobeItem.ItemType type) => items.Find(item => item.itemType == type).gameObject;
+    private GameObject FindItemOfType (WardrobeItem.ItemType type) => items.Find(item => item.itemType == type).gameObject;
 
     // Method to toggle the specified wardrobe item (itemToSwitchOn) on or off
-    public void SwitchOn(WardrobeItem itemToSwitchOn)
+    public void SwitchOn (WardrobeItem itemToSwitchOn)
     {
         // Check if the item to be switched on is of type 'goggles'
         if (itemToSwitchOn.itemType == WardrobeItem.ItemType.goggles)
@@ -84,7 +89,8 @@ public class ItemSwitcher : MonoBehaviour
                     item.gameObject.SetActive(false);
                 }
             }
-        } else
+        } 
+        else
         {
             // For items that are not 'goggles'
             foreach (var item in items)

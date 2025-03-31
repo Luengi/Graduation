@@ -3,9 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RiverSurfaceFishInteraction : MonoBehaviour, 
-										   IEvent, 
-										   IInteractable
+public class RiverSurfaceFishInteraction : MonoBehaviour, IEvent, IInteractable
 {
 	[SerializeField] GameObject _fishPrefab;
 	[SerializeField] RaycastManager _raycastManager;
@@ -15,9 +13,9 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 	[SerializeField] float _extendWaypointForwardDistance = 3f;
 	[SerializeField] float _hitpointYOffset = 1f;
 	
-	public bool CanInterrupt { get;  set; } = true;
-	public bool MultipleInteractions { get; set; } = false;
-	public EventState State { get; set; } = EventState.None;
+	public bool CanInterrupt {get;  set;} = true;
+	public bool MultipleInteractions {get; set;} = false;
+	public EventState State {get; set;} = EventState.None;
 	public event Action OnEventDone;
 
 	// The location in the river where the last action took place (Either spawned fish OR raycast hitpoint)
@@ -39,7 +37,7 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 	private void DoSpawnFishSequence()
 	{
 		List<RiverWaypoint> nearbyWaypoints = GetNearbyWaypoints(_lastRiverActionLocation);
-		if(nearbyWaypoints.Count == 0)
+		if (nearbyWaypoints.Count == 0)
 		{
 			HandleEventDone();
 			return;
@@ -49,11 +47,10 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 		SpawnFish(targetWaypoint);
 	}
 
-	private void SpawnFish(RiverWaypoint targetWaypoint)
+	private void SpawnFish (RiverWaypoint targetWaypoint)
 	{	
 		// First fish gets rotates towards the target waypoint in order to stay within the river
-		Quaternion rotation = _sequencePlayedAmount == 0 ? GetRotationToWaypoint(targetWaypoint) : 
-														   GetRandomRotationFromWaypoint(targetWaypoint);
+		Quaternion rotation = _sequencePlayedAmount == 0 ? GetRotationToWaypoint(targetWaypoint) : GetRandomRotationFromWaypoint(targetWaypoint);
 
 		GameObject spawnedObject = Instantiate(_fishPrefab, _lastRiverActionLocation, rotation);
 		_spawnedRiverFish = spawnedObject.GetComponent<RiverFish>();
@@ -63,7 +60,7 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 	}
 	
 	
-	private void HandleFishAnimationDone(RiverFish riverFish)
+	private void HandleFishAnimationDone (RiverFish riverFish)
 	{	
 		if (_sequencePlayedAmount >= _maxSequencePlaysAmount) // Interaction done - reset
 		{		
@@ -76,7 +73,7 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 		DoSpawnFishSequence();
 	}
 
-	private List<RiverWaypoint> GetNearbyWaypoints(Vector3 point)
+	private List<RiverWaypoint> GetNearbyWaypoints (Vector3 point)
 	{
 		RaycastHit[] hitArray = GetSphereCastCollisions(point);
 		List<RiverWaypoint> waypoints = new List<RiverWaypoint>();
@@ -92,7 +89,7 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 		return waypoints;
 	}
 	
-	private RiverWaypoint GetFurthestDownstreamWaypoint(List<RiverWaypoint> waypoints)
+	private RiverWaypoint GetFurthestDownstreamWaypoint (List<RiverWaypoint> waypoints)
 	{
 		float longestDistance = -1;
 		RiverWaypoint targetWaypoint = null;
@@ -110,33 +107,33 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 		return targetWaypoint;
 	}
 		
-	private RaycastHit[] GetSphereCastCollisions(Vector3 point)
+	private RaycastHit[] GetSphereCastCollisions (Vector3 point)
 	{
 		return Physics.SphereCastAll(point, _sphereCastRadius, Vector3.forward, 
 		_sphereCastRadius, Physics.AllLayers, QueryTriggerInteraction.Collide);
 	}
 	
-	private Quaternion GetRotationToWaypoint(RiverWaypoint waypoint)
+	private Quaternion GetRotationToWaypoint (RiverWaypoint waypoint)
 	{
 		Vector3 direction = (waypoint.transform.position - _lastRiverActionLocation).normalized;
 		direction.y = _lastRiverActionLocation.y;
 		return Quaternion.LookRotation(direction);
 	}
 	
-	private Quaternion GetRandomRotationFromWaypoint(RiverWaypoint waypoint)
+	private Quaternion GetRandomRotationFromWaypoint (RiverWaypoint waypoint)
 	{
 		Vector3 randomRotationVector = new Vector3(0, GetNewRandomHorizontalDirectionDegrees(_spawnFishRandomAngleAmount), 0);
 		return Quaternion.Euler(waypoint.transform.eulerAngles + randomRotationVector);
 	}
 	
-	private float GetNewRandomHorizontalDirectionDegrees(float newAngleAmount)
+	private float GetNewRandomHorizontalDirectionDegrees (float newAngleAmount)
 	{
 		return UnityEngine.Random.Range(-newAngleAmount, newAngleAmount);
 	}
 	
 	private void HandleEventDone()
 	{
-		if(_spawnedRiverFish != null)
+		if (_spawnedRiverFish != null)
 		{
 			UnsubscriveFromSpawnedFish();
 			Destroy(_spawnedRiverFish.gameObject);
@@ -159,8 +156,5 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 	public void StopEvent()
 	{
 		OnEventDone?.Invoke();
-	}
-	
-	
-	
+	}	
 }

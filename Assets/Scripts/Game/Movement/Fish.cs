@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(AvoidObjectSwimmingBehavior))]
 public class Fish : MonoBehaviour
 {
-    public float MoveSpeed { get; set; } = 0.5f;
+    public float MoveSpeed {get; set;} = 0.5f;
     
     private AvoidObjectSwimmingBehavior _avoidObjectSwimmingBehavior;
 

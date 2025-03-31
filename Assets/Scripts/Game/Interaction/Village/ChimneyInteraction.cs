@@ -2,12 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[
-	RequireComponent(typeof(SoundComponent)),
-	RequireComponent(typeof(PlayParticle)),
-	RequireComponent(typeof(PlayAnimation)),
-	RequireComponent(typeof(BoxCollider)),
-]
+[RequireComponent(typeof(SoundComponent)), RequireComponent(typeof(PlayParticle)), RequireComponent(typeof(PlayAnimation)), RequireComponent(typeof(BoxCollider)), ]
 public class ChimneyInteraction : MonoBehaviour, IInteractable
 {
 	private const string HOUSE_ANIMATION_NAME = "tapAnimationHouse";
@@ -22,8 +17,8 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable
 	private SoundComponent _soundComponent;
 	private bool _isPlaying;
 
-	public bool CanInterrupt { get; set; }
-	public bool MultipleInteractions { get; set; }
+	public bool CanInterrupt {get; set;}
+	public bool MultipleInteractions {get; set;}
 
 	private void Awake()
 	{
@@ -39,7 +34,7 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable
 
 	public void Interact()
 	{
-		if(_isPlaying) return;
+		if (_isPlaying) return;
 		
 		_soundComponent.PlaySound(_onceTapHouseSFX);
 		_soundComponent.PlaySound(_onceHouseWobbleSFX);
@@ -59,7 +54,7 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable
 		_playParticle.ToggleOn();
 		_soundComponent.PlaySound(_onceChimneySmokeSFX);
 		yield return StartCoroutine(HouseAnimation());
-		//yield return StartCoroutine(ExpandChimney());
+		// yield return StartCoroutine(ExpandChimney());
 
 		_playAnimation.SetBoolParameter(_houseAnimationParameterName, false);
 		yield return new WaitForSeconds(_particleDuration);
@@ -73,5 +68,4 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable
 		_playParticle.ToggleOff();
 		_isPlaying = false;
 	}
-
 }
