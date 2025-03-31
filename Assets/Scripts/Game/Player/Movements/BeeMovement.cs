@@ -81,6 +81,7 @@ public class BeeMovement : MonoBehaviour
 		{
 			_objectMovement.MoveAroundPivot(_villageIdleRotatePoint.position,_idleRotateAxis,_distanceToPivot, _beeMovementStat.RotationSpeed,_beeMovementStat.MovementSpeed);
 		}
+<<<<<<< HEAD
         else if (PlotsManager.Instance._currentPlot == Plot.Space)
         {
             _objectMovement.MoveAroundPivot(_villageIdleRotatePoint.position, _idleRotateAxis, _distanceToPivot,
@@ -88,6 +89,9 @@ public class BeeMovement : MonoBehaviour
         }
 
     }
+=======
+	}
+>>>>>>> origin/development-amke
 
 	private void HandlePlotChange()
 	{
@@ -169,11 +173,16 @@ public class BeeMovement : MonoBehaviour
 			case Plot.Village:
 				_movementCoroutine = StartCoroutine(MoveToplot(_villageIdleRotatePoint));
 				break;
+<<<<<<< HEAD
             case Plot.Space:
                 _movementCoroutine = StartCoroutine(MoveToplot(_villageIdleRotatePoint));
                 break;
             default:
 				//Debug.LogError(this + ": Can not find plot for bee to handle");
+=======
+			default:
+				// Debug.LogError(this + ": Can not find plot for bee to handle");
+>>>>>>> origin/development-amke
 				break;
 		}
 		
