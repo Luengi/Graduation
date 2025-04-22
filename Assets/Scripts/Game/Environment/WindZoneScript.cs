@@ -23,7 +23,7 @@ public class WindZoneScript : MonoBehaviour
             } 
             else
             {
-                _windForce = Random.value * 3;
+                _windForce = Random.value;
             }
             
         }

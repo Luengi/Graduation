@@ -990,7 +990,7 @@ MonoBehaviour:
   _speedChangeDuration: 0.5
   _particleSystem: {fileID: 0}
   _tapSFX:
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 958d6da9345814b48a3a551a858b3edf, type: 3}
     volume: 0
     priority: 0
     loop: 0
