@@ -10,7 +10,7 @@ public class WindZoneScript : MonoBehaviour
     {
         //Set hitObj to other objects it collides with
         var hitObj = other.gameObject;
-        if (hitObj != null)
+        if (hitObj != null && hitObj.tag != "Butterfly")
         {
             //Transform that objects Rigidbody upwards
             var rb = hitObj.GetComponent<Rigidbody>();
@@ -19,7 +19,7 @@ public class WindZoneScript : MonoBehaviour
             //Randomize the wind so objects don't stay in one place
             if (windStorm == true)
             {
-                _windForce = Random.value * 5 + 2;
+                _windForce = Random.value * 5;
             } 
             else
             {

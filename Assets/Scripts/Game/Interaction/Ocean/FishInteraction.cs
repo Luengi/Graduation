@@ -34,6 +34,7 @@ public class FishInteraction : MonoBehaviour, IInteractable, IInterruptible, IEv
 
 		_speedUpBehaviour.BeginEffectSequence();
 		MoveBeeTowardsFish();
+		Debug.Log("I clicked a buttefly");
 	}
 
 	private void Awake()
