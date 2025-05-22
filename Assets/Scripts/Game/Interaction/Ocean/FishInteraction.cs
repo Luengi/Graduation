@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(FishSpeedUpBehaviour))]
 public class FishInteraction : MonoBehaviour, IInteractable, IInterruptible, IEvent
@@ -10,6 +11,8 @@ public class FishInteraction : MonoBehaviour, IInteractable, IInterruptible, IEv
 
 	[SerializeField] private ObjectMovement _beeMovement;
 	[SerializeField] private BeeMovement _beeStats;
+	[SerializeField] private Material _objectColor; //Matthijs added for purpose of playtest tracking, can be removed for final prototype
+    [SerializeField] public ClickCount _count;
 
 	private PlayAnimation _beePlayAnimation;
 	public bool CanInterrupt {get; set;} = true;
@@ -24,7 +27,8 @@ public class FishInteraction : MonoBehaviour, IInteractable, IInterruptible, IEv
 	private bool _canSpeedUp = true;
 	private bool _beeIsChasing = false;
 
-	public void Interact()
+
+    public void Interact()
 	{
 		// Fish is already interacted with
 		if (!_canSpeedUp) return;
@@ -33,8 +37,13 @@ public class FishInteraction : MonoBehaviour, IInteractable, IInterruptible, IEv
 		_beeIsChasing = true;
 
 		_speedUpBehaviour.BeginEffectSequence();
-		MoveBeeTowardsFish();
-		Debug.Log("I clicked a buttefly");
+        MoveBeeTowardsFish();
+        //Matthijs added for purpose of playtest tracking, can be removed for final prototype
+        if (_objectColor !=null)
+		{
+			ColorCounting();
+        }
+		
 	}
 
 	private void Awake()
@@ -149,4 +158,34 @@ public class FishInteraction : MonoBehaviour, IInteractable, IInterruptible, IEv
 	{
 		StopEvent();
 	}
+
+	public void ColorCounting() //Matthijs added for purpose of playtest tracking, can be removed for final prototype
+    {
+        if (_objectColor.name == "Blue")
+        {
+			_count.blue++;
+        }
+        if (_objectColor.name == "Cyan")
+        {
+            _count.cyan++;
+        }
+        if (_objectColor.name == "Magenta")
+        {
+            _count.magenta++;
+        }
+        if (_objectColor.name == "Orange")
+        {
+            _count.orange++;
+        }
+        if (_objectColor.name == "Purple")
+        {
+            _count.purple++;
+        }
+        if (_objectColor.name == "Yellow")
+        {
+            _count.yellow++;
+        }
+		//Debug.Log("We have " + blue + " blue butterfly clicked");
+        //Debug.Log("We have " + cyan + " cyan butterfly clicked");
+    }
 }
