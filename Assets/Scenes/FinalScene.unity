@@ -43996,7 +43996,7 @@ MonoBehaviour:
     _addedResponse: 4
     _updatedResponse: 5
   - _imageName: fourthPlot
-    _objectReference: {fileID: 189924954}
+    _objectReference: {fileID: 1184350499}
     _addedResponse: 4
     _updatedResponse: 5
   _imageTrackingResponsesContainer: {fileID: 1176037027}
